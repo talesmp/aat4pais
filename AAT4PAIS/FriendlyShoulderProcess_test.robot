@@ -3,7 +3,7 @@
 *** Settings ***
 Library    FakerLibrary    #locale=pt_BR
 Resource    FriendlyShoulderProcess_resources.robot
-Test Setup    FakerDataSetup
+Test Setup    kwFakerDataSetup
 
 *** Variables ***
 @{TaskNames}    TaskAnalyseComplaint  TaskReviewEscalation  TaskAcknowledge
@@ -76,7 +76,7 @@ TC_LinearBatch
     [Documentation]  Execute TC_Random for i=10 consecutive times
     FOR    ${i}    IN RANGE    10
         Sleep    200ms
-        FakerDataSetup
+        kwFakerDataSetup
         # =====> Insert here the arranged Keywords according to TC_Random above <====
         Close Browser
     END
@@ -105,11 +105,11 @@ kwFakerDataSetup
     Set Test Variable    ${faker-gravity}
     ${faker-date}    FakerLibrary.Date
     Set Test Variable    ${faker-date}
-    ${faker-response}    FakerLibrary.Sentence  nb_words=8
-    Set Test Variable    ${faker-response}
     ${faker-description}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-description}
-    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['compliment', 'complaint', 'suggestion']
+    ${faker-response}    FakerLibrary.Sentence  nb_words=8
+    Set Test Variable    ${faker-response}
+    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['complaint', 'compliment', 'suggestion']
     Set Test Variable    ${faker-babblingCharacterization.type}
     ${processRunning}=    Set Variable    ${True}
     Set Test Variable    ${processRunning}

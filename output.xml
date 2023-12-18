@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.10.12 on win32)" generated="20231214 13:39:07.581" rpa="false" schemaversion="4">
+<suite id="s1" name="FriendlyShoulderProcess test" source="c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_test.robot">
+<test id="s1-t1" name="TC_BlindBatch" line="34">
+<kw name="kwFakerDataSetup" type="SETUP">
+<kw name="Boolean" library="FakerLibrary">
+<var>${faker-log}</var>
+<doc>Generate a random boolean value based on ``chance_of_getting_true``.</doc>
+<msg timestamp="20231214 13:39:08.941" level="INFO">${faker-log} = True</msg>
+<status status="PASS" starttime="20231214 13:39:08.941" endtime="20231214 13:39:08.941"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-log}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.942" level="INFO">${faker-log} = True</msg>
+<status status="PASS" starttime="20231214 13:39:08.941" endtime="20231214 13:39:08.942"/>
+</kw>
+<kw name="Random Int" library="FakerLibrary">
+<var>${faker-gravity}</var>
+<arg>min=1</arg>
+<arg>max=10</arg>
+<doc>Generate a random integer between two integers ``min`` and ``max`` inclusive
+while observing the provided ``step`` value.</doc>
+<msg timestamp="20231214 13:39:08.942" level="INFO">${faker-gravity} = 8</msg>
+<status status="PASS" starttime="20231214 13:39:08.942" endtime="20231214 13:39:08.942"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-gravity}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.943" level="INFO">${faker-gravity} = 8</msg>
+<status status="PASS" starttime="20231214 13:39:08.942" endtime="20231214 13:39:08.943"/>
+</kw>
+<kw name="Date" library="FakerLibrary">
+<var>${faker-date}</var>
+<doc>Get a date string between January 1, 1970 and now.</doc>
+<msg timestamp="20231214 13:39:08.943" level="INFO">${faker-date} = 2022-04-02</msg>
+<status status="PASS" starttime="20231214 13:39:08.943" endtime="20231214 13:39:08.943"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-date}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.943" level="INFO">${faker-date} = 2022-04-02</msg>
+<status status="PASS" starttime="20231214 13:39:08.943" endtime="20231214 13:39:08.943"/>
+</kw>
+<kw name="Sentence" library="FakerLibrary">
+<var>${faker-response}</var>
+<arg>nb_words=8</arg>
+<doc>Generate a sentence.</doc>
+<msg timestamp="20231214 13:39:08.944" level="INFO">${faker-response} = Brother law war least us everything likely kind line.</msg>
+<status status="PASS" starttime="20231214 13:39:08.943" endtime="20231214 13:39:08.944"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-response}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.944" level="INFO">${faker-response} = Brother law war least us everything likely kind line.</msg>
+<status status="PASS" starttime="20231214 13:39:08.944" endtime="20231214 13:39:08.944"/>
+</kw>
+<kw name="Sentence" library="FakerLibrary">
+<var>${faker-description}</var>
+<arg>nb_words=8</arg>
+<doc>Generate a sentence.</doc>
+<msg timestamp="20231214 13:39:08.944" level="INFO">${faker-description} = Score sure mention six artist left.</msg>
+<status status="PASS" starttime="20231214 13:39:08.944" endtime="20231214 13:39:08.944"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-description}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.945" level="INFO">${faker-description} = Score sure mention six artist left.</msg>
+<status status="PASS" starttime="20231214 13:39:08.944" endtime="20231214 13:39:08.945"/>
+</kw>
+<kw name="Word" library="FakerLibrary">
+<var>${faker-babblingCharacterization.type}</var>
+<arg>ext_word_list=['suggestion', 'compliment', 'complaint']</arg>
+<doc>Generate a word.</doc>
+<msg timestamp="20231214 13:39:08.946" level="INFO">${faker-babblingCharacterization.type} = suggestion</msg>
+<status status="PASS" starttime="20231214 13:39:08.945" endtime="20231214 13:39:08.946"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-babblingCharacterization.type}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.946" level="INFO">${faker-babblingCharacterization.type} = suggestion</msg>
+<status status="PASS" starttime="20231214 13:39:08.946" endtime="20231214 13:39:08.946"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${processRunning}</var>
+<arg>${True}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231214 13:39:08.947" level="INFO">${processRunning} = True</msg>
+<status status="PASS" starttime="20231214 13:39:08.947" endtime="20231214 13:39:08.947"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${processRunning}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.947" level="INFO">${processRunning} = True</msg>
+<status status="PASS" starttime="20231214 13:39:08.947" endtime="20231214 13:39:08.947"/>
+</kw>
+<status status="PASS" starttime="20231214 13:39:08.940" endtime="20231214 13:39:08.947"/>
+</kw>
+<kw name="kwFakerDataSetup">
+<kw name="Boolean" library="FakerLibrary">
+<var>${faker-log}</var>
+<doc>Generate a random boolean value based on ``chance_of_getting_true``.</doc>
+<msg timestamp="20231214 13:39:08.948" level="INFO">${faker-log} = False</msg>
+<status status="PASS" starttime="20231214 13:39:08.948" endtime="20231214 13:39:08.949"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-log}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.949" level="INFO">${faker-log} = False</msg>
+<status status="PASS" starttime="20231214 13:39:08.949" endtime="20231214 13:39:08.949"/>
+</kw>
+<kw name="Random Int" library="FakerLibrary">
+<var>${faker-gravity}</var>
+<arg>min=1</arg>
+<arg>max=10</arg>
+<doc>Generate a random integer between two integers ``min`` and ``max`` inclusive
+while observing the provided ``step`` value.</doc>
+<msg timestamp="20231214 13:39:08.949" level="INFO">${faker-gravity} = 5</msg>
+<status status="PASS" starttime="20231214 13:39:08.949" endtime="20231214 13:39:08.949"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-gravity}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.950" level="INFO">${faker-gravity} = 5</msg>
+<status status="PASS" starttime="20231214 13:39:08.949" endtime="20231214 13:39:08.950"/>
+</kw>
+<kw name="Date" library="FakerLibrary">
+<var>${faker-date}</var>
+<doc>Get a date string between January 1, 1970 and now.</doc>
+<msg timestamp="20231214 13:39:08.950" level="INFO">${faker-date} = 1970-03-11</msg>
+<status status="PASS" starttime="20231214 13:39:08.950" endtime="20231214 13:39:08.950"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-date}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.950" level="INFO">${faker-date} = 1970-03-11</msg>
+<status status="PASS" starttime="20231214 13:39:08.950" endtime="20231214 13:39:08.950"/>
+</kw>
+<kw name="Sentence" library="FakerLibrary">
+<var>${faker-response}</var>
+<arg>nb_words=8</arg>
+<doc>Generate a sentence.</doc>
+<msg timestamp="20231214 13:39:08.951" level="INFO">${faker-response} = Believe old together manage thousand send determine expert everyone better.</msg>
+<status status="PASS" starttime="20231214 13:39:08.950" endtime="20231214 13:39:08.951"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-response}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.951" level="INFO">${faker-response} = Believe old together manage thousand send determine expert everyone better.</msg>
+<status status="PASS" starttime="20231214 13:39:08.951" endtime="20231214 13:39:08.951"/>
+</kw>
+<kw name="Sentence" library="FakerLibrary">
+<var>${faker-description}</var>
+<arg>nb_words=8</arg>
+<doc>Generate a sentence.</doc>
+<msg timestamp="20231214 13:39:08.951" level="INFO">${faker-description} = Someone need carry reduce on deep write wait who.</msg>
+<status status="PASS" starttime="20231214 13:39:08.951" endtime="20231214 13:39:08.951"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-description}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.952" level="INFO">${faker-description} = Someone need carry reduce on deep write wait who.</msg>
+<status status="PASS" starttime="20231214 13:39:08.951" endtime="20231214 13:39:08.952"/>
+</kw>
+<kw name="Word" library="FakerLibrary">
+<var>${faker-babblingCharacterization.type}</var>
+<arg>ext_word_list=['suggestion', 'compliment', 'complaint']</arg>
+<doc>Generate a word.</doc>
+<msg timestamp="20231214 13:39:08.954" level="INFO">${faker-babblingCharacterization.type} = complaint</msg>
+<status status="PASS" starttime="20231214 13:39:08.952" endtime="20231214 13:39:08.954"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${faker-babblingCharacterization.type}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.955" level="INFO">${faker-babblingCharacterization.type} = complaint</msg>
+<status status="PASS" starttime="20231214 13:39:08.954" endtime="20231214 13:39:08.955"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${processRunning}</var>
+<arg>${True}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231214 13:39:08.955" level="INFO">${processRunning} = True</msg>
+<status status="PASS" starttime="20231214 13:39:08.955" endtime="20231214 13:39:08.955"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${processRunning}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20231214 13:39:08.955" level="INFO">${processRunning} = True</msg>
+<status status="PASS" starttime="20231214 13:39:08.955" endtime="20231214 13:39:08.955"/>
+</kw>
+<status status="PASS" starttime="20231214 13:39:08.948" endtime="20231214 13:39:08.956"/>
+</kw>
+<kw name="kwLogin">
+<kw name="The user logs in" library="FriendlyShoulderProcess_resources">
+<kw name="Open Available Browser" library="RPA.Browser.Selenium">
+<arg>maximized=true</arg>
+<doc>Attempts to open a browser on the user's device from a set of
+supported browsers. Automatically downloads a corresponding webdriver
+if none is already installed.</doc>
+<msg timestamp="20231214 13:39:09.715" level="INFO">Downloaded webdriver to: C:\Users\tales\AppData\Local\robocorp\webdrivers\.wdm\drivers\chromedriver\win64\120.0.6099.71\chromedriver-win32/chromedriver.exe</msg>
+<msg timestamp="20231214 13:39:09.730" level="INFO">Webdriver version taken into use: ChromeDriver 120.0.6099.71 (9729082fe6174c0a371fc66501f5efc5d69d3d2b-refs/branch-heads/6099_56@{#13})
+</msg>
+<msg timestamp="20231214 13:39:09.985" level="INFO">Targeted browser version: 120.0.6099</msg>
+<msg timestamp="20231214 13:39:09.986" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20231214 13:39:10.978" level="INFO">Created Chrome browser with arguments: --start-maximized --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20231214 13:39:10.978" level="INFO" html="true">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;Message: Webdriver executable 'chromedriver' is not in PATH (with disabled Selenium Manager)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;True&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<status status="PASS" starttime="20231214 13:39:08.957" endtime="20231214 13:39:10.978"/>
+</kw>
+<kw name="Go To" library="RPA.Browser.Selenium">
+<arg>http://localhost:8080/</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<msg timestamp="20231214 13:39:10.979" level="INFO">Opening url 'http://localhost:8080/'</msg>
+<msg timestamp="20231214 13:39:15.820" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;img alt="screenshot" class="robot-seleniumlibrary-screenshot" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB4AAAAO7CAYAAAC1UJm7AAAAAXNSR0IArs4c6QAAIABJREFUeJzs3X+Q1/Vh7/tX6jqu4zKsAwLqkl0JUUgXD1JpoOCMThcOnkqjBzlND+3RKEwSe9I213qnl5kLI394O9fk9pzT1rQVjD0nnCQHHenFe6TCGZ0Rij0gelxaqRGzG9YIBCdfhmWC42Zy/9jvLt/9AS6ysPL28fhr9/v59f5+PstMMk/f78+nWq6b/osAAAAAAAAAcNH7pbEeAAAAAAAAAACjQwAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAAAAAAAIBCCMAAAAAAAAAAhRCAAQAAAAAAAAohAAMAAAAAAAAUQgAGAAAAAAAAKIQADAAAAAAAAFAIARgAAAAAAACgEAIwAAAAAAAAQCEEYAAA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IQAGAAAAAAAAKAgBMAAAAAAAAEBBCIABAAAAAAAACkIADAAAAAAAAFAQAmAAAAAAAACAghAAAwAAAAAAABSEABgAAAAAAACgIATAAAAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAQEEIgAEAAAAAAAAKQgAMAAAAAAAAUBACYAAAAAAAAICCEAADAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAAABSEABgAAAAAAACgIATAAAAAAAABAQQiAAQAAAAAAAApCAAwAAAAAAABQEAJgAAAAAAAAgIIQAAMAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAEBBCIABAAAAAAAACkIADAAAAAAAAFAQAmAAAAAAAACAghAAAwAAAAAAABSEABgAAAAAAACgIATAAAAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAQEEIgAEAAAAAAAAKQgAMAAAAAAAAUBACYAAAAAAAAICCEAADAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAAABSEABgAAAAAAACgIATAAAAAAAABAQQiAAQAAAAAAAApCAAwAAAAAAABQEAJgAAAAAAAAgIIQAAMAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAEBBCIABAAAAAAAACkIADAAAAAAAAFAQAmAAAAAAAACAghAAAwAAAAAAABSEABgAAAAAAACgIATAAAAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAQEEIgAEAAAAAAAAKQgAMAAAAAAAAUBACYAAAAAAAAICCEAADAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAAABSEABgAAAAAAACgIATAAAAAAAABAQQiAAQAAAAAAAApCAAwAAAAAAABQEAJgAAAAAAAAgIIQAAMAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAEBBCIABAAAAAAAACkIADAAAAAAAAFAQAmAAAAAAAACAghAAAwAAAAAAABSEABgAAAAAAACgIATAAAAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAQEEIgAEAAAAAAAAKQgAMAAAAAAAAUBACYAAAAAAAAICCEAADAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAAABSEABgAAAAAAACgIATAAAAAAAABAQQiAAQAAAAAAAApCAAwAAAAAAABQEAJgAAAAAAAAgIIQAAMAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAEBBCIABAAAAAAAACkIADAAAAAAAAFAQAmAAAAAAAACAghAAAwAAAAAAABSEABgAAAAAAACgIATAAAAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAQEEIgAEAAAAAAAAKQgAMAAAAAAAAUBACYAAAAAAAAICCEAADAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAAABSEABgAAAAAAACgIATAAAAAAAABAQQiAAQAAAAAAAApCAAwAAAAAAABQEAJgAAAAAAAAgIIQAAMAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAAAFIQAGAAAAAAAAKAgBMAAAAAAAAEBBCIABAAAAAAAACkIADAAAAAAAAFAQAmAAAAAAAACAghAAAwAAAAAAABSEABgAAAAAAACgIATAAAAAAAAAAAUhAAYAAAAAAAAoCAEwAAAAAAAAQEEIgAEAAAAAAAAKQgAMAAAAAAAAUBACYAAAAAAAAICC+P/bswMZAAAAgEH+1vf4SiMBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgIkATlINqn54jOcAAAAASUVORK5CYII=" width="800px"&gt;</msg>
+<msg timestamp="20231214 13:39:15.821" level="FAIL">WebDriverException: Message: unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=120.0.6099.110)
+Stacktrace:
+	GetHandleVerifier [0x010C6E73+174291]
+	(No symbol) [0x00FF0AC1]
+	(No symbol) [0x00D06FF6]
+	(No symbol) [0x00D03B92]
+	(No symbol) [0x00CFB48A]
+	(No symbol) [0x00CFA72E]
+	(No symbol) [0x00CF9B26]
+	(No symbol) [0x00CF9ABF]
+	(No symbol) [0x00CF89DC]
+	(No symbol) [0x00CF8DD8]
+	(No symbol) [0x00D08EB7]
+	(No symbol) [0x00D6A9D2]
+	(No symbol) [0x00D5700C]
+	(No symbol) [0x00D6A104]
+	(No symbol) [0x00D56DA6]
+	(No symbol) [0x00D31034]
+	(No symbol) [0x00D31F8D]
+	GetHandleVerifier [0x011649CC+820268]
+	sqlite3_dbdata_init [0x01224EBE+652494]
+	sqlite3_dbdata_init [0x012248D9+650985]
+	sqlite3_dbdata_init [0x0121962C+605244]
+	sqlite3_dbdata_init [0x0122586B+654971]
+	(No symbol) [0x00FFFEBC]
+	(No symbol) [0x00FF8428]
+	(No symbol) [0x00FF854D]
+	(No symbol) [0x00FE5858]
+	BaseThreadInitThunk [0x77087BA9+25]
+	RtlInitializeExceptionChain [0x7744BD2B+107]
+	RtlClearBits [0x7744BCAF+191]
+</msg>
+<status status="FAIL" starttime="20231214 13:39:10.979" endtime="20231214 13:39:15.823"/>
+</kw>
+<kw name="Click Element When Visible" library="RPA.Browser.Selenium">
+<arg>account-menu__BV_toggle_</arg>
+<doc>Click element identified by ``locator``, once it becomes visible.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.823" endtime="20231214 13:39:15.823"/>
+</kw>
+<kw name="Click Element When Visible" library="RPA.Browser.Selenium">
+<arg>login</arg>
+<doc>Click element identified by ``locator``, once it becomes visible.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.823" endtime="20231214 13:39:15.823"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="RPA.Browser.Selenium">
+<arg>login-page___BV_modal_header_</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.823" endtime="20231214 13:39:15.823"/>
+</kw>
+<kw name="Input Text When Element Is Visible" library="RPA.Browser.Selenium">
+<arg>username</arg>
+<arg>admin</arg>
+<doc>Input text into locator after it has become visible.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.823" endtime="20231214 13:39:15.823"/>
+</kw>
+<kw name="Input Text When Element Is Visible" library="RPA.Browser.Selenium">
+<arg>password</arg>
+<arg>admin</arg>
+<doc>Input text into locator after it has become visible.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.823" endtime="20231214 13:39:15.825"/>
+</kw>
+<kw name="Click Element When Visible" library="RPA.Browser.Selenium">
+<arg>//span[contains(.,'Remember me')]</arg>
+<doc>Click element identified by ``locator``, once it becomes visible.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.825" endtime="20231214 13:39:15.825"/>
+</kw>
+<kw name="Click Button When Visible" library="RPA.Browser.Selenium">
+<arg>//button[@data-cy='submit'][contains(.,'Sign in')]</arg>
+<doc>Click button identified by ``locator``, once it becomes visible.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.825" endtime="20231214 13:39:15.825"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>500ms</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.825" endtime="20231214 13:39:15.825"/>
+</kw>
+<status status="FAIL" starttime="20231214 13:39:08.956" endtime="20231214 13:39:15.825"/>
+</kw>
+<status status="FAIL" starttime="20231214 13:39:08.956" endtime="20231214 13:39:15.826"/>
+</kw>
+<for flavor="IN RANGE">
+<var>${i}</var>
+<value>10</value>
+<iter>
+<var name="${i}"/>
+<kw name="kwFakerDataSetup">
+<status status="NOT RUN" starttime="20231214 13:39:15.826" endtime="20231214 13:39:15.826"/>
+</kw>
+<kw name="kwRequestForm">
+<status status="NOT RUN" starttime="20231214 13:39:15.827" endtime="20231214 13:39:15.827"/>
+</kw>
+<while condition="$processRunning == True">
+<iter>
+<kw name="kwFindFirstAvailableTask">
+<status status="NOT RUN" starttime="20231214 13:39:15.827" endtime="20231214 13:39:15.827"/>
+</kw>
+<if>
+<branch type="IF" condition="$found_task == &quot;TaskAnalyseComplaint&quot;">
+<kw name="kwFakerDataSetup">
+<status status="NOT RUN" starttime="20231214 13:39:15.827" endtime="20231214 13:39:15.827"/>
+</kw>
+<kw name="kwTaskAnalyseComplaint">
+<status status="NOT RUN" starttime="20231214 13:39:15.827" endtime="20231214 13:39:15.827"/>
+</kw>
+<status status="NOT RUN" starttime="20231214 13:39:15.827" endtime="20231214 13:39:15.827"/>
+</branch>
+<branch type="ELSE IF" condition="$found_task == &quot;TaskReviewEscalation&quot;">
+<kw name="kwFakerDataSetup">
+<status status="NOT RUN" starttime="20231214 13:39:15.828" endtime="20231214 13:39:15.828"/>
+</kw>
+<kw name="kwTaskReviewEscalation">
+<status status="NOT RUN" starttime="20231214 13:39:15.828" endtime="20231214 13:39:15.828"/>
+</kw>
+<status status="NOT RUN" starttime="20231214 13:39:15.827" endtime="20231214 13:39:15.828"/>
+</branch>
+<branch type="ELSE IF" condition="$found_task == &quot;TaskAcknowledge&quot;">
+<kw name="kwFakerDataSetup">
+<status status="NOT RUN" starttime="20231214 13:39:15.828" endtime="20231214 13:39:15.828"/>
+</kw>
+<kw name="kwTaskAcknowledge">
+<status status="NOT RUN" starttime="20231214 13:39:15.828" endtime="20231214 13:39:15.828"/>
+</kw>
+<status status="NOT RUN" starttime="20231214 13:39:15.828" endtime="20231214 13:39:15.828"/>
+</branch>
+<branch type="ELSE IF" condition="$found_task == &quot;No task available.&quot;">
+<kw name="Set Variable" library="BuiltIn">
+<var>${processRunning}</var>
+<arg>${False}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.828" endtime="20231214 13:39:15.829"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>${processRunning}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" starttime="20231214 13:39:15.829" endtime="20231214 13:39:15.829"/>
+</kw>
+<break>
+<status status="NOT RUN" starttime="20231214 13:39:15.829" endtime="20231214 13:39:15.829"/>
+</break>
+<status status="NOT RUN" starttime="20231214 13:39:15.828" endtime="20231214 13:39:15.829"/>
+</branch>
+<status status="NOT RUN" starttime="20231214 13:39:15.827" endtime="20231214 13:39:15.829"/>
+</if>
+<status status="NOT RUN" starttime="20231214 13:39:15.827" endtime="20231214 13:39:15.829"/>
+</iter>
+<status status="NOT RUN" starttime="20231214 13:39:15.827" endtime="20231214 13:39:15.829"/>
+</while>
+<status status="NOT RUN" starttime="20231214 13:39:15.826" endtime="20231214 13:39:15.829"/>
+</iter>
+<status status="NOT RUN" starttime="20231214 13:39:15.826" endtime="20231214 13:39:15.829"/>
+</for>
+<status status="FAIL" starttime="20231214 13:39:08.940" endtime="20231214 13:39:15.830">WebDriverException: Message: unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=120.0.6099.110)
+Stacktrace:
+	GetHandleVerifier [0x010C6E73+174291]
+	(No symbol) [0x00FF0AC1]
+	(No symbol) [0x00D06FF6]
+	(No symbol) [0x00D03B92]
+	(No symbol) [0x00CFB48A]
+	(No symbol) [0x00CFA72E]
+	(No symbol) [0x00CF9B26]
+	(No symbol) [0x00CF9ABF]
+	(No symbol) [0x00CF89DC]
+	(No symbol) [0x00CF8DD8]
+	(No symbol) [0x00D08EB7]
+	(No symbol) [0x00D6A9D2]
+	(No symbol) [0x00D5700C]
+	(No symbol) [0x00D6A104]
+	(No symbol) [0x00D56DA6]
+	(No symbol) [0x00D31034]
+	(No symbol) [0x00D31F8D]
+	GetHandleVerifier [0x011649CC+820268]
+	sqlite3_dbdata_init [0x01224EBE+652494]
+	sqlite3_dbdata_init [0x012248D9+650985]
+	sqlite3_dbdata_init [0x0121962C+605244]
+	sqlite3_dbdata_init [0x0122586B+654971]
+	(No symbol) [0x00FFFEBC]
+	(No symbol) [0x00FF8428]
+	(No symbol) [0x00FF854D]
+	(No symbol) [0x00FE5858]
+	BaseThreadInitThunk [0x77087BA9+25]
+	RtlInitializeExceptionChain [0x7744BD2B+107]
+	RtlClearBits [0x7744BCAF+191]
+</status>
+</test>
+<status status="FAIL" starttime="20231214 13:39:07.586" endtime="20231214 13:39:15.833"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="FriendlyShoulderProcess test">FriendlyShoulderProcess test</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20231214 13:39:08.064" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 41: Creating keyword 'The user is in RequestForm' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.065" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 45: Creating keyword 'The user fills RequestForm' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.067" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 49: Creating keyword 'The user submits RequestForm' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.067" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 53: Creating keyword 'The user is in TaskAnalyseComplaint' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.068" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 57: Creating keyword 'The user fills TaskAnalyseComplaint' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.068" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 61: Creating keyword 'The user submits TaskAnalyseComplaint' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.068" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 65: Creating keyword 'The user is in TaskReviewEscalation' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.069" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 69: Creating keyword 'The user fills TaskReviewEscalation' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.069" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 73: Creating keyword 'The user submits TaskReviewEscalation' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.070" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 77: Creating keyword 'The user is in TaskAcknowledge' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.070" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 81: Creating keyword 'The user fills TaskAcknowledge' failed: User keyword cannot be empty.</msg>
+<msg timestamp="20231214 13:39:08.070" level="ERROR">Error in file 'c:\Users\tales\LocalDocuments\Development\aat4pais\AAT4PAIS\FriendlyShoulderProcess_resources.robot' on line 85: Creating keyword 'The user submits TaskAcknowledge' failed: User keyword cannot be empty.</msg>
+</errors>
+</robot>
