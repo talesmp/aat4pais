@@ -315,7 +315,16 @@ print(unique_interactable_fields)
 
 #region Robot Framework Manipulation
 
-"""# Manipulating the Robot Framework files"""
+"""
+# Manipulating the Robot Framework files
+
+# Implement also keywords which are specific to the said Form
+# Boolean => Wait Until Element Is Visible + Select Checkbox
+# Integer => Input Text When Element Is Visible
+# String => Input Text When Element Is Visible
+# LocalDate => Input Text When Element Is Visible
+# many-to-one => Click Element When Visible + Click Element When Visible
+"""
 
 robotTestFileName = processIdFromBpmn+'_test.robot'
 robotResourcesFileName = processIdFromBpmn+'_resources.robot'
@@ -340,6 +349,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('*** Variables ***\n')
   test.write('@{TaskNames}    '+'  '.join(filteredUserTasks_notDT)+'\n\n')
   resources.write('*** Variables ***\n')
+  resources.write('${home_url}    http://localhost:8080/')
   # All AgileKip form field locators
   for fl in fieldLocators:
     resources.write('${locator-'+fl[0]+'}    '+fl[1]+'\n')
@@ -514,13 +524,6 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
     resources.write('    [Documentation]  \n')
     resources.write('\n')
     test.write('\n')
-
-# Implement also keywords which are specific to the said Form
-# Boolean => Wait Until Element Is Visible + Select Checkbox
-# Integer => Input Text When Element Is Visible
-# String => Input Text When Element Is Visible
-# LocalDate => Input Text When Element Is Visible
-# many-to-one => Click Element When Visible + Click Element When Visible
 
 #endregion
 
