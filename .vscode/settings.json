@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "c:/Users/tales/LocalDocuments/Development/aat4pais/AAT4PAIS/."
-    ]
+        "C:/Users/tales/AppData/Local/Programs/Python/Python311/python.exe"
+    ],
+    "python.defaultInterpreterPath": "C:\\Users\\tales\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"
 }

@@ -16,6 +16,6 @@ artifactsDir: output
 PATH:
   - .
 PYTHONPATH:
-  - .
+  - C:\Users\tales\AppData\Local\Programs\Python\Python311\python.exe
 ignoreFiles:
   - .gitignore

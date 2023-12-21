@@ -109,7 +109,7 @@ kwFakerDataSetup
     Set Test Variable    ${faker-description}
     ${faker-response}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-response}
-    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['complaint', 'compliment', 'suggestion']
+    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['compliment', 'suggestion', 'complaint']
     Set Test Variable    ${faker-babblingCharacterization.type}
     ${processRunning}=    Set Variable    ${True}
     Set Test Variable    ${processRunning}

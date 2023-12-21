@@ -1,0 +1,134 @@
+[LIST] interactableBpmnElementsDict_notDT  
+    [
+        {'bpmnElementId': 'RequestForm', 'bpmnElementType': 'startEvent'}, 
+        {'bpmnElementId': 'TaskAnalyseComplaint', 'bpmnElementType': 'userTask'}, 
+        {'bpmnElementId': 'TaskReviewEscalation', 'bpmnElementType': 'userTask'}, 
+        {'bpmnElementId': 'TaskAcknowledge', 'bpmnElementType': 'userTask'}
+    ]
+
+====================================
+
+[LIST] interactableBpmnElementIdsList_notDT  
+    [
+        'RequestForm', 
+        'TaskAnalyseComplaint', 
+        'TaskReviewEscalation', 
+        'TaskAcknowledge'
+    ]
+
+====================================
+
+[LIST] filteredBpmnElementIds_notDT
+    [
+        'RequestForm', 
+        'TaskAnalyseComplaint', 
+        'TaskReviewEscalation', 
+        'TaskAcknowledge', 
+        'EndProperlyLogged', 
+        'EndNotLogged'
+    ]
+
+====================================
+
+[LIST] filteredUserTasks_notDT
+    [
+        'TaskAnalyseComplaint', 
+        'TaskReviewEscalation', 
+        'TaskAcknowledge'
+    ]
+
+====================================
+
+[LIST] bpmnGateways_notDT
+    [
+        {'bpmnElementId': 'GatewayEscalate', 'bpmnElementType': 'exclusiveGateway'}, 
+        {'bpmnElementId': 'GatewayEscalateJoin', 'bpmnElementType': 'exclusiveGateway'}, 
+        {'bpmnElementId': 'GatewayLog', 'bpmnElementType': 'exclusiveGateway'}, 
+        {'bpmnElementId': 'GatewayType', 'bpmnElementType': 'exclusiveGateway'}
+    ]
+
+====================================
+
+[STRING] ProcessId
+    FriendlyShoulder
+
+====================================
+
+[DICT] jsonFilesContentDictList
+    [
+        {
+            'jsonName': 'FriendlyShoulderStartForm', 
+            'jsonEntityType': 'start-form', 
+            'bpmnElementType': 'startEvent', 
+            'bpmnElementId': 'RequestForm', 
+            'formFieldPrefix': 'friendly-shoulder-start-form-', 
+            'jsonInteractableFields': [
+                {'fieldName': 'description', 'fieldType': 'String', 'fieldLocator': 'friendly-shoulder-start-form-description'}, 
+                {'fieldName': 'date', 'fieldType': 'LocalDate', 'fieldLocator': 'friendly-shoulder-start-form-date'}, 
+                {'fieldName': 'babblingCharacterization.type', 'fieldType': 'many-to-one', 'otherEntityField': 'type', 'fieldLocator': 'friendly-shoulder-start-form-babblingCharacterization'}
+            ]
+        }, 
+        {
+            'jsonName': 'TaskAcknowledge', 
+            'jsonEntityType': 'user-task-form', 
+            'bpmnElementType': 'userTask', 
+            'bpmnElementId': 'TaskAcknowledge', 
+            'formFieldPrefix': 'task-acknowledge-', 
+            'jsonInteractableFields': [
+                {'fieldName': 'log', 'fieldType': 'Boolean', 'fieldLocator': 'task-acknowledge-log'}, 
+                {'fieldName': 'response', 'fieldType': 'String', 'fieldLocator': 'task-acknowledge-response'}
+            ]
+        }, 
+        {
+            'jsonName': 'TaskAnalyseComplaint', 
+            'jsonEntityType': 'user-task-form', 
+            'bpmnElementType': 'userTask', 
+            'bpmnElementId': 'TaskAnalyseComplaint', 
+            'formFieldPrefix': 'task-analyse-complaint-', 
+            'jsonInteractableFields': [
+                {'fieldName': 'gravity', 'fieldType': 'Integer', 'fieldLocator': 'task-analyse-complaint-gravity'}, 
+                {'fieldName': 'log', 'fieldType': 'Boolean', 'fieldLocator': 'task-analyse-complaint-log'}, 
+                {'fieldName': 'response', 'fieldType': 'String', 'fieldLocator': 'task-analyse-complaint-response'}
+            ]
+        }, 
+        {
+            'jsonName': 'TaskReviewEscalation', 
+            'jsonEntityType': 'user-task-form', 
+            'bpmnElementType': 'userTask', 
+            'bpmnElementId': 'TaskReviewEscalation', 
+            'formFieldPrefix': 'task-review-escalation-', 
+            'jsonInteractableFields': [
+                {'fieldName': 'log', 'fieldType': 'Boolean', 'fieldLocator': 'task-review-escalation-log'}, 
+                {'fieldName': 'response', 'fieldType': 'String', 'fieldLocator': 'task-review-escalation-response'}
+            ]
+        }
+    ]
+
+=====================================
+
+[TUPLE] unique_interactable_fields
+    [
+        ('log', 'Boolean'), 
+        ('gravity', 'Integer'), 
+        ('date', 'LocalDate'), 
+        ('description', 'String'), 
+        ('response', 'String'), 
+        ('babblingCharacterization.type', 'many-to-one')
+    ]
+
+=====================================
+[TUPLE] fieldLocators
+    [
+        ('friendly-shoulder-start-form-babblingCharacterization.type', 'friendly-shoulder-start-form-babblingCharacterization'), 
+        ('friendly-shoulder-start-form-date', 'friendly-shoulder-start-form-date'), 
+        ('friendly-shoulder-start-form-description', 'friendly-shoulder-start-form-description'), 
+        ('task-acknowledge-log', 'task-acknowledge-log'), 
+        ('task-acknowledge-response', 'task-acknowledge-response'), 
+        ('task-analyse-complaint-gravity', 'task-analyse-complaint-gravity'), 
+        ('task-analyse-complaint-log', 'task-analyse-complaint-log'), 
+        ('task-analyse-complaint-response', 'task-analyse-complaint-response'), 
+        ('task-review-escalation-log', 'task-review-escalation-log'), 
+        ('task-review-escalation-response', 'task-review-escalation-response')]
+
+=====================================
+

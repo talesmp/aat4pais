@@ -229,12 +229,22 @@ for tag in tags:
         elem_id = elem.get('id')
 
 # print(startEventId)
+print("\n====================================\n")
+print("interactableBpmnElementsDict_notDT  \n")
 print(interactableBpmnElementsDict_notDT)
+print("\n====================================\n")
+print("interactableBpmnElementIdsList_notDT  \n")
 print(interactableBpmnElementIdsList_notDT)
+print("\n====================================\n")
+print("filteredBpmnElementIds_notDT  \n")
 print(filteredBpmnElementIds_notDT)
+print("\n====================================\n")
+print("filteredUserTasks_notDT  \n")
 print(filteredUserTasks_notDT)
+print("\n====================================\n")
+print("bpmnGateways_notDT  \n")
 print(bpmnGateways_notDT)
-print("====================================\n")
+print("\n====================================\n")
 
 # Get all outgoing flow gateway conditions in alphabetical order
 crudeOutgoingGatewayConditions = []
@@ -274,8 +284,10 @@ for jsonFile in os.listdir(json_folder_path):
     if jsonFile.endswith('.json') and (jsonFile == domainNameFromProcessId+"StartForm.json" or jsonFile in [userTask+".json" for userTask in filteredUserTasks_notDT]):
         with open(os.path.join(json_folder_path, jsonFile)) as f:
             jsonFilesContentDictList.append(filter_interactable_fields_from_json(json.load(f)))
+print("\n====================================\n")
+print("jsonFilesContentDictList  \n")
 print(jsonFilesContentDictList)
-print('======================================\n')
+print('\n=====================================\n')
 
 fieldLocators = set()
 bpmnElementIds = []
@@ -295,11 +307,17 @@ for e in jsonFilesContentDictList:
 
 # Sorting alphabetically to ease the understanding in the Robot file
 fieldLocators = sorted(fieldLocators, key=lambda x: x[0])
+print('\n=====================================\n')
+print("fieldLocators  \n")
 print(fieldLocators)
+print('\n=====================================\n')
 
 # Sorting by the type of field to ease the understanding in the Robot file
 unique_interactable_fields = sorted(unique_interactable_fields, key=lambda x: x[1])
+print('\n=====================================\n')
+print("unique_interactable_fields  \n")
 print(unique_interactable_fields)
+print('\n=====================================\n')
 
 # Extracting the Interactable Fields from each Form
 # for element in bpmnElementIds:
@@ -349,7 +367,8 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('*** Variables ***\n')
   test.write('@{TaskNames}    '+'  '.join(filteredUserTasks_notDT)+'\n\n')
   resources.write('*** Variables ***\n')
-  resources.write('${home_url}    http://localhost:8080/')
+  resources.write('${url_home}    http://localhost:8080/\n')
+  resources.write('${url_my_tasks}    ${url_home}my-candidate-tasks\n')
   # All AgileKip form field locators
   for fl in fieldLocators:
     resources.write('${locator-'+fl[0]+'}    '+fl[1]+'\n')
@@ -479,7 +498,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   resources.write('    [Arguments]  \n')
   resources.write('    [Documentation]  \n')
   resources.write('    Open Available Browser    maximized=true\n')
-  resources.write('    Go To    http://localhost:8080/\n')
+  resources.write('    Go To    ${url_home}\n')
   resources.write('    Click Element When Visible       account-menu__BV_toggle_\n')
   resources.write('    Click Element When Visible       login\n')
   resources.write('    Wait Until Element Is Visible    login-page___BV_modal_header_\n')
@@ -500,10 +519,12 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   resources.write('    [Arguments]  \n')
   resources.write('    [Documentation]  \n')
   resources.write('    Sleep    100ms\n')
-  resources.write('    Go To    http://localhost:8080/my-candidate-tasks\n')
+  resources.write('    Go To    ${url_my_tasks}\n')
   resources.write('    Wait Until Element Is Visible    task-instance-heading\n')
   resources.write('\n')
+  # =================================================>>> ATTENTION HERE NOW!!! <<<===================================
   ### Implementing the keyword of the Start Form and each User Task
+  ### 
   for ibed in interactableBpmnElementsDict_notDT:
     test.write('kw'+ibed['bpmnElementId']+'\n')
     test.write('    [Arguments]  \n')
@@ -512,11 +533,31 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
     resources.write('The user is in '+ibed['bpmnElementId']+'\n')
     resources.write('    [Arguments]  \n')
     resources.write('    [Documentation]  \n')
+    resources.write('    Sleep    500ms  \n')
+    ### from here on, Start Form and User Task is different       <<<===================================
+    resources.write('    Click Element If Visible    xpath:/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[12]/div[1]/button[1]  \n')
+    resources.write('    Wait Until Page Contains    '+ibed['bpmnElementId']+'\n')
+    # Implentation for entering in the form and checking if it's in the right form: 
+    """
+        Sleep    500ms
+        Click Element If Visible    xpath:/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[12]/div[1]/button[1]
+        Wait Until Page Contains    TaskAnalyseComplaint
+    """
     resources.write('\n')
     test.write('    The user fills '+ibed['bpmnElementId']+'\n')
     resources.write('The user fills '+ibed['bpmnElementId']+'\n')
     resources.write('    [Arguments]  \n')
     resources.write('    [Documentation]  \n')
+    ### using ibed['bpmnElementId'], find the object in jsonFilesContentDictList that has the same 'bpmnElementId' <<<===================================
+    ### for each jsonInteractableFields in the said form, implement the keyword for each fieldType, and the said Faker input
+    ### params(fieldType, locator, fakerData)
+    """
+    # Boolean => Wait Until Element Is Visible + Select Checkbox
+    # Integer => Input Text When Element Is Visible
+    # String => Input Text When Element Is Visible
+    # LocalDate => Input Text When Element Is Visible
+    # many-to-one => Click Element When Visible + Click Element When Visible
+    """
     resources.write('\n')
     test.write('    The user submits '+ibed['bpmnElementId']+'\n')
     resources.write('The user submits '+ibed['bpmnElementId']+'\n')
@@ -524,6 +565,27 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
     resources.write('    [Documentation]  \n')
     resources.write('\n')
     test.write('\n')
+
+def implementingFieldFillingKeyword(fieldType, fieldLocator, fieldName):
+  if fieldType in ('String', 'Integer','LocalDate'):
+    resources.write('    Input Text When Element Is Visible    '+fieldLocator+'    ${faker-'+fieldName+'} \n')
+  # elif fieldType=='Integer':
+  #   resources.write('     \n')
+  # elif fieldType=='LocalDate':
+  #   resources.write('     \n')
+  elif fieldType=='Boolean':
+    resources.write('    IF    ${faker-'+fieldName+'} is True \n')
+    resources.write('        Wait Until Element Is Visible    '+fieldLocator+' \n')
+    resources.write('        Select Checkbox    '+fieldLocator+' \n')
+    resources.write('    ELSE IF    ${faker-'+fieldName+'} is False \n')
+    resources.write('        Wait Until Element Is Visible    '+fieldLocator+' \n')
+    resources.write('        Unselect Checkbox    '+fieldLocator+' \n')
+  elif fieldType=='many-to-one':
+    resources.write('    Click Element When Visible    '+fieldLocator+' \n')
+    resources.write('    IF \n')  # <<<============= manipular essa collection pra fazer essa implementação ser agnóstica
+  
+    
+      
 
 #endregion
 
