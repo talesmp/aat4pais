@@ -65,7 +65,13 @@
             'jsonInteractableFields': [
                 {'fieldName': 'description', 'fieldType': 'String', 'fieldLocator': 'friendly-shoulder-start-form-description'}, 
                 {'fieldName': 'date', 'fieldType': 'LocalDate', 'fieldLocator': 'friendly-shoulder-start-form-date'}, 
-                {'fieldName': 'babblingCharacterization.type', 'fieldType': 'many-to-one', 'otherEntityField': 'type', 'fieldLocator': 'friendly-shoulder-start-form-babblingCharacterization'}
+                {
+                    'fieldName': 'babblingCharacterization.type', 
+                    'fieldType': 'many-to-one', 
+                    'otherEntityField': 'type', 
+                    'fieldLocator': 'friendly-shoulder-start-form-babblingCharacterization', 
+                    'manyToOneOptions': ['compliment', 'suggestion', 'complaint']
+                }
             ]
         }, 
         {

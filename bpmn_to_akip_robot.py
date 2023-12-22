@@ -478,8 +478,13 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
       test.write('    ${faker-'+uif[0]+'}    FakerLibrary.Random Int  min=1  max=10\n')
       test.write('    Set Test Variable    ${faker-'+uif[0]+'}\n')
     if uif[1] == 'many-to-one':
+      ### https://github.com/talesmp/aat4pais/issues/5
       inputSubstring = "processInstance."+domainNameInBpmnExpressions+"."+uif[0]
       collectionResult = extract_many_to_one_collection(crudeOutgoingGatewayConditions, inputSubstring)
+      for dictionary in jsonFilesContentDictList:
+        for field in dictionary.get('jsonInteractableFields', []):
+          if field.get('fieldName') == uif[0]:
+            field['manyToOneOptions'] = collectionResult
       test.write("    ${faker-"+uif[0]+"}    FakerLibrary.Word  ext_word_list="+str(collectionResult)+"\n")
       test.write('    Set Test Variable    ${faker-'+uif[0]+'}\n')
   test.write('    ${processRunning}=    Set Variable    ${True}\n')
@@ -535,6 +540,8 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
     resources.write('    [Documentation]  \n')
     resources.write('    Sleep    500ms  \n')
     ### from here on, Start Form and User Task is different       <<<===================================
+    ### https://github.com/talesmp/aat4pais/issues/1 
+    ### https://github.com/talesmp/aat4pais/issues/2 
     resources.write('    Click Element If Visible    xpath:/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[12]/div[1]/button[1]  \n')
     resources.write('    Wait Until Page Contains    '+ibed['bpmnElementId']+'\n')
     # Implentation for entering in the form and checking if it's in the right form: 
@@ -560,28 +567,46 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
     """
     resources.write('\n')
     test.write('    The user submits '+ibed['bpmnElementId']+'\n')
+    ### https://github.com/talesmp/aat4pais/issues/4
     resources.write('The user submits '+ibed['bpmnElementId']+'\n')
     resources.write('    [Arguments]  \n')
     resources.write('    [Documentation]  \n')
     resources.write('\n')
     test.write('\n')
 
-def implementingFieldFillingKeyword(fieldType, fieldLocator, fieldName):
-  if fieldType in ('String', 'Integer','LocalDate'):
-    resources.write('    Input Text When Element Is Visible    '+fieldLocator+'    ${faker-'+fieldName+'} \n')
+
+
+### https://github.com/talesmp/aat4pais/issues/3
+
+# já estará com o `ibed`` (interactableBpmnElementIdsList_notDT) situado;
+"""
+[
+  'RequestForm', 
+  'TaskAnalyseComplaint', 
+  'TaskReviewEscalation', 
+  'TaskAcknowledge'
+]
+"""
+# localizar `ibed` em `jsonFilesContentDictList` pelo `bpmnElementId`,
+# achar o `fieldName` do param da função em  `jsonInteractableFields` pelo `fieldName`
+# pegar os dados de `manyToOneOptions`, contar o tamanho da lista e aí montar o IF/ELSE do Robot levando em conta o tamanho dessa lista
+
+def implementingFieldFillingKeyword(defFieldType, defFieldName, defFieldLocator):
+  if defFieldType in ('String', 'Integer','LocalDate'):
+    resources.write('    Input Text When Element Is Visible    '+defFieldLocator+'    ${faker-'+defFieldName+'} \n')
   # elif fieldType=='Integer':
   #   resources.write('     \n')
   # elif fieldType=='LocalDate':
   #   resources.write('     \n')
-  elif fieldType=='Boolean':
-    resources.write('    IF    ${faker-'+fieldName+'} is True \n')
-    resources.write('        Wait Until Element Is Visible    '+fieldLocator+' \n')
-    resources.write('        Select Checkbox    '+fieldLocator+' \n')
-    resources.write('    ELSE IF    ${faker-'+fieldName+'} is False \n')
-    resources.write('        Wait Until Element Is Visible    '+fieldLocator+' \n')
-    resources.write('        Unselect Checkbox    '+fieldLocator+' \n')
-  elif fieldType=='many-to-one':
-    resources.write('    Click Element When Visible    '+fieldLocator+' \n')
+  elif defFieldType =='Boolean':
+    resources.write('    IF    ${faker-'+defFieldName+'} is True \n')
+    resources.write('        Wait Until Element Is Visible    '+defFieldLocator+' \n')
+    resources.write('        Select Checkbox    '+defFieldLocator+' \n')
+    resources.write('    ELSE IF    ${faker-'+defFieldName+'} is False \n')
+    resources.write('        Wait Until Element Is Visible    '+defFieldLocator+' \n')
+    resources.write('        Unselect Checkbox    '+defFieldLocator+' \n')
+  elif defFieldType =='many-to-one':
+    resources.write('    Click Element When Visible    '+defFieldLocator+' \n')
     resources.write('    IF \n')  # <<<============= manipular essa collection pra fazer essa implementação ser agnóstica
   
     
