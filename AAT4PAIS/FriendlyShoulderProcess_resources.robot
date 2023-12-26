@@ -44,16 +44,29 @@ The user is in RequestForm
     [Arguments]  
     [Documentation]  
     Sleep    500ms  
-    Click Element If Visible    xpath:/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[12]/div[1]/button[1]  
-    Wait Until Page Contains    RequestForm
+    Go To    http://localhost:8080/process-definition/FriendlyShoulderProcess/init 
 
 The user fills RequestForm
     [Arguments]  
     [Documentation]  
+    Click Button    save-entity 
+    Input Text When Element Is Visible    friendly-shoulder-start-form-description    ${faker-description} 
+    Input Text When Element Is Visible    friendly-shoulder-start-form-date    ${faker-date} 
+    Click Element When Visible    friendly-shoulder-start-form-babblingCharacterization 
+    IF    '${faker-babblingCharacterization.type}' == 'compliment' 
+        Click Element When Visible     //option[@value='[object Object]'][contains(.,'compliment')] 
+    ELSE IF    '${faker-babblingCharacterization.type}' == 'complaint' 
+        Click Element When Visible     //option[@value='[object Object]'][contains(.,'complaint')] 
+    ELSE IF    '${faker-babblingCharacterization.type}' == 'suggestion' 
+        Click Element When Visible     //option[@value='[object Object]'][contains(.,'suggestion')] 
+    END 
 
 The user submits RequestForm
     [Arguments]  
     [Documentation]  
+    Sleep    500ms  
+    Capture Page Screenshot  
+    Click Button    save-entity 
 
 The user is in TaskAnalyseComplaint
     [Arguments]  
@@ -65,10 +78,23 @@ The user is in TaskAnalyseComplaint
 The user fills TaskAnalyseComplaint
     [Arguments]  
     [Documentation]  
+    Wait Until Page Contains    TaskAnalyseComplaint 
+    Input Text When Element Is Visible    task-analyse-complaint-gravity    ${faker-gravity} 
+    IF    ${faker-log} is True 
+        Wait Until Element Is Visible    task-analyse-complaint-log 
+        Select Checkbox    task-analyse-complaint-log 
+    ELSE IF    ${faker-log} is False 
+        Wait Until Element Is Visible    task-analyse-complaint-log 
+        Unselect Checkbox    task-analyse-complaint-log 
+    END 
+    Input Text When Element Is Visible    task-analyse-complaint-response    ${faker-response} 
 
 The user submits TaskAnalyseComplaint
     [Arguments]  
     [Documentation]  
+    Sleep    500ms  
+    Capture Page Screenshot  
+    Click Button    //button[@type='submit'][contains(.,'Complete')] 
 
 The user is in TaskReviewEscalation
     [Arguments]  
@@ -80,10 +106,22 @@ The user is in TaskReviewEscalation
 The user fills TaskReviewEscalation
     [Arguments]  
     [Documentation]  
+    Wait Until Page Contains    TaskReviewEscalation 
+    IF    ${faker-log} is True 
+        Wait Until Element Is Visible    task-review-escalation-log 
+        Select Checkbox    task-review-escalation-log 
+    ELSE IF    ${faker-log} is False 
+        Wait Until Element Is Visible    task-review-escalation-log 
+        Unselect Checkbox    task-review-escalation-log 
+    END 
+    Input Text When Element Is Visible    task-review-escalation-response    ${faker-response} 
 
 The user submits TaskReviewEscalation
     [Arguments]  
     [Documentation]  
+    Sleep    500ms  
+    Capture Page Screenshot  
+    Click Button    //button[@type='submit'][contains(.,'Complete')] 
 
 The user is in TaskAcknowledge
     [Arguments]  
@@ -95,8 +133,20 @@ The user is in TaskAcknowledge
 The user fills TaskAcknowledge
     [Arguments]  
     [Documentation]  
+    Wait Until Page Contains    TaskAcknowledge 
+    IF    ${faker-log} is True 
+        Wait Until Element Is Visible    task-acknowledge-log 
+        Select Checkbox    task-acknowledge-log 
+    ELSE IF    ${faker-log} is False 
+        Wait Until Element Is Visible    task-acknowledge-log 
+        Unselect Checkbox    task-acknowledge-log 
+    END 
+    Input Text When Element Is Visible    task-acknowledge-response    ${faker-response} 
 
 The user submits TaskAcknowledge
     [Arguments]  
     [Documentation]  
+    Sleep    500ms  
+    Capture Page Screenshot  
+    Click Button    //button[@type='submit'][contains(.,'Complete')] 
 

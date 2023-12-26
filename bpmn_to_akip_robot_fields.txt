@@ -8,53 +8,7 @@
 
 ====================================
 
-[LIST] interactableBpmnElementIdsList_notDT  
-    [
-        'RequestForm', 
-        'TaskAnalyseComplaint', 
-        'TaskReviewEscalation', 
-        'TaskAcknowledge'
-    ]
-
-====================================
-
-[LIST] filteredBpmnElementIds_notDT
-    [
-        'RequestForm', 
-        'TaskAnalyseComplaint', 
-        'TaskReviewEscalation', 
-        'TaskAcknowledge', 
-        'EndProperlyLogged', 
-        'EndNotLogged'
-    ]
-
-====================================
-
-[LIST] filteredUserTasks_notDT
-    [
-        'TaskAnalyseComplaint', 
-        'TaskReviewEscalation', 
-        'TaskAcknowledge'
-    ]
-
-====================================
-
-[LIST] bpmnGateways_notDT
-    [
-        {'bpmnElementId': 'GatewayEscalate', 'bpmnElementType': 'exclusiveGateway'}, 
-        {'bpmnElementId': 'GatewayEscalateJoin', 'bpmnElementType': 'exclusiveGateway'}, 
-        {'bpmnElementId': 'GatewayLog', 'bpmnElementType': 'exclusiveGateway'}, 
-        {'bpmnElementId': 'GatewayType', 'bpmnElementType': 'exclusiveGateway'}
-    ]
-
-====================================
-
-[STRING] ProcessId
-    FriendlyShoulder
-
-====================================
-
-[DICT] jsonFilesContentDictList
+[LIST] jsonFilesContentDictList
     [
         {
             'jsonName': 'FriendlyShoulderStartForm', 
@@ -111,6 +65,52 @@
     ]
 
 =====================================
+
+[LIST] interactableBpmnElementIdsList_notDT  
+    [
+        'RequestForm', 
+        'TaskAnalyseComplaint', 
+        'TaskReviewEscalation', 
+        'TaskAcknowledge'
+    ]
+
+====================================
+
+[LIST] filteredBpmnElementIds_notDT
+    [
+        'RequestForm', 
+        'TaskAnalyseComplaint', 
+        'TaskReviewEscalation', 
+        'TaskAcknowledge', 
+        'EndProperlyLogged', 
+        'EndNotLogged'
+    ]
+
+====================================
+
+[LIST] filteredUserTasks_notDT
+    [
+        'TaskAnalyseComplaint', 
+        'TaskReviewEscalation', 
+        'TaskAcknowledge'
+    ]
+
+====================================
+
+[LIST] bpmnGateways_notDT
+    [
+        {'bpmnElementId': 'GatewayEscalate', 'bpmnElementType': 'exclusiveGateway'}, 
+        {'bpmnElementId': 'GatewayEscalateJoin', 'bpmnElementType': 'exclusiveGateway'}, 
+        {'bpmnElementId': 'GatewayLog', 'bpmnElementType': 'exclusiveGateway'}, 
+        {'bpmnElementId': 'GatewayType', 'bpmnElementType': 'exclusiveGateway'}
+    ]
+
+====================================
+
+[STRING] ProcessId
+    FriendlyShoulder
+
+====================================
 
 [TUPLE] unique_interactable_fields
     [
