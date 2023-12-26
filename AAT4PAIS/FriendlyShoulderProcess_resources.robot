@@ -53,12 +53,12 @@ The user fills RequestForm
     Input Text When Element Is Visible    friendly-shoulder-start-form-description    ${faker-description} 
     Input Text When Element Is Visible    friendly-shoulder-start-form-date    ${faker-date} 
     Click Element When Visible    friendly-shoulder-start-form-babblingCharacterization 
-    IF    '${faker-babblingCharacterization.type}' == 'compliment' 
-        Click Element When Visible     //option[@value='[object Object]'][contains(.,'compliment')] 
+    IF    '${faker-babblingCharacterization.type}' == 'suggestion' 
+        Click Element When Visible     //option[@value='[object Object]'][contains(.,'suggestion')] 
     ELSE IF    '${faker-babblingCharacterization.type}' == 'complaint' 
         Click Element When Visible     //option[@value='[object Object]'][contains(.,'complaint')] 
-    ELSE IF    '${faker-babblingCharacterization.type}' == 'suggestion' 
-        Click Element When Visible     //option[@value='[object Object]'][contains(.,'suggestion')] 
+    ELSE IF    '${faker-babblingCharacterization.type}' == 'compliment' 
+        Click Element When Visible     //option[@value='[object Object]'][contains(.,'compliment')] 
     END 
 
 The user submits RequestForm

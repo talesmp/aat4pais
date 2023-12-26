@@ -389,6 +389,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('    END\n')
   test.write('\n')
   ### 10 times batch execution of Blind  ###
+  ### Implementation of executed keywords json
   test.write('TC_BlindBatch\n')
   test.write('    kwFakerDataSetup\n')
   test.write('    kwLogin\n')
@@ -469,6 +470,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
       test.write('    ${faker-'+uif[0]+'}    FakerLibrary.Random Int  min=1  max=10\n')
       test.write('    Set Test Variable    ${faker-'+uif[0]+'}\n')
     if uif[1] == 'many-to-one':
+      test.write("    # double-check the following collection in 'ext_word_list' =====>                     <===== \n")
       ### https://github.com/talesmp/aat4pais/issues/5
       inputSubstring = "processInstance."+domainNameInBpmnExpressions+"."+uif[0]
       collectionResult = extract_many_to_one_collection(crudeOutgoingGatewayConditions, inputSubstring)
