@@ -73,11 +73,11 @@ TC_Linear
     kwTaskAcknowledge
 
 TC_LinearBatch 
-    [Documentation]  Execute TC_Random for i=10 consecutive times
+    [Documentation]  Execute TC_Linear for i=10 consecutive times
     FOR    ${i}    IN RANGE    10
         Sleep    200ms
         kwFakerDataSetup
-        # =====> Insert here the arranged Keywords according to TC_Random above <====
+        # =====> Insert here the arranged Keywords according to TC_Linear above <====
         Close Browser
     END
 

@@ -335,7 +335,6 @@ print('\n=====================================\n')
 
 # Manipulating the Robot Framework files
 
-#region RF resolved bits
 robotTestFileName = processIdFromBpmn+'_test.robot'
 robotResourcesFileName = processIdFromBpmn+'_resources.robot'
 with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+robotResourcesFileName, 'w') as resources:
@@ -422,11 +421,11 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('\n')
   ### 10 times batch execution of Linear ###
   test.write('TC_LinearBatch \n')
-  test.write('    [Documentation]  Execute TC_Random for i=10 consecutive times\n')
+  test.write('    [Documentation]  Execute TC_Linear for i=10 consecutive times\n')
   test.write('    FOR    ${i}    IN RANGE    10\n')
   test.write('        Sleep    200ms\n')
   test.write('        kwFakerDataSetup\n')
-  test.write('        # =====> Insert here the arranged Keywords according to TC_Random above <====\n')
+  test.write('        # =====> Insert here the arranged Keywords according to TC_Linear above <====\n')
   test.write('        Close Browser\n')
   test.write('    END\n')
   test.write('\n')
@@ -519,11 +518,6 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   resources.write('    Go To    ${url_my_tasks}\n')
   resources.write('    Wait Until Element Is Visible    task-instance-heading\n')
   resources.write('\n')
-
-#endregion
-  
-  # =================================================>>> ATTENTION HERE NOW!!! <<<===================================
-  ### Implementing the keyword of the Start Form and each User Task
 
   for ibed in interactableBpmnElementsDict_notDT:
     test.write('kw'+ibed['bpmnElementId']+'\n')

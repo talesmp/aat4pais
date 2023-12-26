@@ -49,7 +49,7 @@ The user is in RequestForm
 The user fills RequestForm
     [Arguments]  
     [Documentation]  
-    Click Button    save-entity 
+    Wait Until Page Contains    Create or edit a 
     Input Text When Element Is Visible    friendly-shoulder-start-form-description    ${faker-description} 
     Input Text When Element Is Visible    friendly-shoulder-start-form-date    ${faker-date} 
     Click Element When Visible    friendly-shoulder-start-form-babblingCharacterization 
