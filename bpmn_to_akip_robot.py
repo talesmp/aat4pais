@@ -710,39 +710,4 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
 #         print(f"  {j + 1}. {node_type} {node} {node_name}".strip())
 #     print()
 
-# """
-
-# **Dar próximo passo na implementação das KWs**
-# - Pensar numa estratégia de dicionário que unifique:
-#    - **form name** [RequestForm]
-#       - *jsonFilesContentDictList['bpmnElementId']*
-#       - or *interactableBpmnElementIdsList_notDT*
-#    - **field name** [date]
-#       - *jsonFilesContentDictList['jsonInteractableFields']['fieldName']*
-#    - **field locator keys** [locator-friendly-shoulder-start-form-date]
-#       - *jsonFilesContentDictList['formFieldPrefix'] +jsonFilesContentDictList['jsonInteractableFields']['fieldName']*
-#    - **field locator values** [friendly-shoulder-start-form-date]
-#       - *jsonFilesContentDictList['jsonInteractableFields']['fieldLocator']*
-#    - **field JSON types** [LocalDate]
-#       - *jsonFilesContentDictList['jsonInteractableFields']['fieldType']*
-#    - **field Faker types** [Date]
-#       - function which enters *fieldName* and *fieldType* and outputs *Faker type* and *Faker key*
-#    - **field faker keys** [faker-date]
-#       - *'faker-'+jsonFilesContentDictList['jsonInteractableFields']['fieldName']*
-
-# **Variables:**
-# - Boolean
-#    - Wait Until Element Is Visible + Select Checkbox
-#    - IF ELSE IF END para True e False
-# - Integer
-#    - Input Text When Element Is Visible
-# - String
-#    - Input Text When Element Is Visible
-# - LocalDate
-#    - Input Text When Element Is Visible
-# - many-to-one
-#    - Click Element When Visible + Click Element When Visible
-#    - IF ELSE IF ... END para cada item da Collection
-
-# O que é possível de fazer inclusive **sem os JSONs**?"""
 #endregion

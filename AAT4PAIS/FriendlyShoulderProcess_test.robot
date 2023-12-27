@@ -105,12 +105,12 @@ kwFakerDataSetup
     Set Test Variable    ${faker-gravity}
     ${faker-date}    FakerLibrary.Date
     Set Test Variable    ${faker-date}
-    ${faker-response}    FakerLibrary.Sentence  nb_words=8
-    Set Test Variable    ${faker-response}
     ${faker-description}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-description}
+    ${faker-response}    FakerLibrary.Sentence  nb_words=8
+    Set Test Variable    ${faker-response}
     # double-check the following collection in 'ext_word_list' =====>                     <===== 
-    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['suggestion', 'complaint', 'compliment']
+    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['complaint', 'compliment', 'suggestion']
     Set Test Variable    ${faker-babblingCharacterization.type}
     ${processRunning}=    Set Variable    ${True}
     Set Test Variable    ${processRunning}
