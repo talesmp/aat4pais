@@ -5,7 +5,7 @@
 # Preparing the Environment
 - Importing the libraries
 - Importing the BPMN (XML)
-- Importing the AgileKip entity JSONs
+- Importing the webapp reference architecture files (JSONs)
 """
 
 # Import Libraries
@@ -331,7 +331,7 @@ print('\n=====================================\n')
 
 #endregion
 
-#region Robot Framework Manipulation
+#region Robot Framework Files Generation
 
 # Manipulating the Robot Framework files
 
@@ -448,6 +448,13 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('                ${found_task}=    Set Variable    ${taskName}\n')
   test.write('                BREAK\n')
   test.write('            END\n')
+  test.write('        END\n')
+  test.write('        IF    $found_task == "No task available."\n')
+  test.write('            ${processRunning}=    Set Variable    ${False}\n')
+  test.write('            Set Test Variable    ${processRunning}\n')
+  test.write('            ${found_task}=    Set Variable    ${task_definition_key_from_text}\n')
+  test.write('            Set Test Variable    ${found_task}\n')
+  test.write('            Fatal Error    Unexpected task found! \n')
   test.write('        END\n')
   test.write('    END\n')
   test.write('    Set Test Variable    ${found_task}\n')
@@ -621,7 +628,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
 
 #endregion
 
-#region Unused 
+#region TO DO 
 #####################################################################################################
 
 # """# Hush... (mining)"""
@@ -664,50 +671,5 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
 # # 11 executions: RequestForm => TaskAnalyseComplaint
 # # 10 executions: RequestForm => TaskAnalyseComplaint => TaskReviewEscalation
 
-################################################################################################################################################################################################################################################
-
-
-# """# Hush... (prior)"""
-
-# # Searching for the Test Cases prior to execution
-
-# import networkx as nx
-
-# def generate_paths(G, node, path=None):
-#     if path is None:
-#         path = []
-
-#     path.append(node)
-
-#     if len(list(G.successors(node))) == 0:
-#         yield path
-#     else:
-#         for next_node in G.successors(node):
-#             yield from generate_paths(G, next_node, path.copy())
-
-# # Create a directed graph
-# G = nx.DiGraph()
-
-# # Add nodes (tasks, gateways, and events) to the graph
-# for element in tree.findall('.//bpmn:userTask|.//bpmn:exclusiveGateway|.//bpmn:endEvent|.//bpmn:startEvent', ns):
-#     element_type = element.tag.split('}')[-1]
-#     element_name = element.attrib.get('name', 'Unnamed')
-#     G.add_node(element.attrib['id'], name=element_name, type=element_type)
-
-# # Add edges (sequence flows) to the graph
-# for element in tree.findall('.//bpmn:sequenceFlow', ns):
-#     G.add_edge(element.attrib['sourceRef'], element.attrib['targetRef'], id=element.attrib['id'])
-
-# # Generate all unique paths
-# unique_paths = list(generate_paths(G, 'RequestForm'))
-
-# # Print the unique paths (test cases)
-# for i, path in enumerate(unique_paths, start=1):
-#     print(f"Test case {i}:")
-#     for j, node in enumerate(path):
-#         node_type = G.nodes[node].get('type', '')
-#         node_name = G.nodes[node].get('name', '')
-#         print(f"  {j + 1}. {node_type} {node} {node_name}".strip())
-#     print()
-
+#####################################################################################################
 #endregion

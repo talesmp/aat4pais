@@ -1,0 +1,66 @@
+Each project has the following artifacts: 
+
+- 1 Data Model using a UML Class Diagram 
+    => Today: Diagrams.net 
+        => How to integrate? Has to be a "offline" file, to be part of the resources of the project 
+            => A MarkDown file (PlantUML, Mermaid, etc)? 
+
+- 1..n Process Definitions (BPMN) 
+    => Today: Cawemo, BPMNs Locally or at GitLab 
+
+- 0..n Decision Definitions (DMN) 
+    => Today: DMNs Locally or at GitLab 
+
+- 1..n Forms 
+    => Today: Figma 
+        => How to integrate? 
+            => Miranum JSONForms might be the answer! 
+
+- Written Documentation 
+    => Today: written in MarkDown Syntax at GitLab's Wiki, which is separate from the project itself 
+        => How to make it more friendly? Gherkin/BDD? 
+
+
+
+Uma análise de requisitos pode ser referente a: 
+- Greenfield: 
+    - Projeto Novo 
+- Brownfield: 
+    - Corretiva de Projeto 
+    - Evolutiva de Projeto 
+        - Apenas artefatos novos (raro) 
+        - Alteração em artefatos existentes 
+
+
+
+Como amarrar o versionamento do artifacts? 
+- Data Model, BPMN e DMN são crucias estarem amarrados! 
+- Forms podem ter uma certa flexibilidade apenas se não forem utilizados para geração de código, e, portanto, não tiverem relação direta com o Data Model nem com o BPMN; 
+
+
+
+Se os 
+
+
+kwFindFirstAvailableTask
+    Sleep    200ms
+    kwMyTasks
+    ${found_task}=    Set Variable    No task available.
+    ${exist_available_task}=    Run Keyword And Return Status    Get Text  xpath=/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[8]
+    IF    $exist_available_task == True
+        FOR    ${taskName}    IN ZIP    ${TaskNames}
+            ${task_definition_key_from_text}=    Get Text  xpath=/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[8]
+            IF    $task_definition_key_from_text == $taskName
+                ${found_task}=    Set Variable    ${taskName}
+                BREAK
+            END
+        END
+        IF    $found_task == "No task available."
+            ${processRunning}=    Set Variable    ${False}
+            Set Test Variable    ${processRunning}
+            ${found_task}=    Set Variable    ${task_definition_key_from_text}
+            Set Test Variable    ${found_task}
+            Fatal Error    Unexpected task found!  
+        END
+    END
+    Set Test Variable    ${found_task}

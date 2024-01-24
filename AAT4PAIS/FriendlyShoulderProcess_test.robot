@@ -95,13 +95,20 @@ kwFindFirstAvailableTask
                 BREAK
             END
         END
+        IF    $found_task == "No task available."
+            ${processRunning}=    Set Variable    ${False}
+            Set Test Variable    ${processRunning}
+            ${found_task}=    Set Variable    ${task_definition_key_from_text}
+            Set Test Variable    ${found_task}
+            Fatal Error    Unexpected task found! 
+        END
     END
     Set Test Variable    ${found_task}
 
 kwFakerDataSetup
     ${faker-log}    FakerLibrary.Boolean
     Set Test Variable    ${faker-log}
-    ${faker-gravity}    FakerLibrary.Random Int  min=1  max=10
+    ${faker-gravity}    FakerLibrary.Random Int  min=7  max=10
     Set Test Variable    ${faker-gravity}
     ${faker-date}    FakerLibrary.Date
     Set Test Variable    ${faker-date}
@@ -110,7 +117,7 @@ kwFakerDataSetup
     ${faker-response}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-response}
     # double-check the following collection in 'ext_word_list' =====>                     <===== 
-    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['complaint', 'compliment', 'suggestion']
+    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['compliment', 'complaint', 'suggestion']
     Set Test Variable    ${faker-babblingCharacterization.type}
     ${processRunning}=    Set Variable    ${True}
     Set Test Variable    ${processRunning}
