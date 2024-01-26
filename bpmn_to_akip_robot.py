@@ -477,16 +477,17 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
       test.write('    ${faker-'+uif[0]+'}    FakerLibrary.Random Int  min=1  max=10\n')
       test.write('    Set Test Variable    ${faker-'+uif[0]+'}\n')
     if uif[1] == 'many-to-one':
-      test.write("    # double-check the following collection in 'ext_word_list' =====>                     <===== \n")
       ### https://github.com/talesmp/aat4pais/issues/5
       inputSubstring = "processInstance."+domainNameInBpmnExpressions+"."+uif[0]
       collectionResult = extract_many_to_one_collection(crudeOutgoingGatewayConditions, inputSubstring)
-      for dictionary in jsonFilesContentDictList:
-        for field in dictionary.get('jsonInteractableFields', []):
-          if field.get('fieldName') == uif[0]:
-            field['manyToOneOptions'] = collectionResult
-      test.write("    ${faker-"+uif[0]+"}    FakerLibrary.Word  ext_word_list="+str(collectionResult)+"\n")
-      test.write('    Set Test Variable    ${faker-'+uif[0]+'}\n')
+      if len(collectionResult) > 0:
+        test.write("    # double-check the following collection in 'ext_word_list' =====>                     <===== \n")
+        for dictionary in jsonFilesContentDictList:
+          for field in dictionary.get('jsonInteractableFields', []):
+            if field.get('fieldName') == uif[0]:
+              field['manyToOneOptions'] = collectionResult
+        test.write("    ${faker-"+uif[0]+"}    FakerLibrary.Word  ext_word_list="+str(collectionResult)+"\n")
+        test.write('    Set Test Variable    ${faker-'+uif[0]+'}\n')
   test.write('    ${processRunning}=    Set Variable    ${True}\n')
   test.write('    Set Test Variable    ${processRunning}\n')
   test.write('\n')
@@ -577,19 +578,20 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
         resources.write('        Unselect Checkbox    '+defFieldLocator+' \n')
         resources.write('    END \n')
       elif defFieldType =='many-to-one':
-        defManyToOneOptions = field['manyToOneOptions']
-        resources.write('    Click Element When Visible    '+defFieldLocator+' \n')
-        for index, item in enumerate(defManyToOneOptions):
-            if index==0:
-              resources.write("    IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
-              resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
-            elif index == len(defManyToOneOptions) - 1: 
-              resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n")  
-              resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
-              resources.write('    END \n')
-            else: 
-              resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
-              resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
+        if 'manyToOneOptions' in field:
+          defManyToOneOptions = field['manyToOneOptions']
+          resources.write('    Click Element When Visible    '+defFieldLocator+' \n')
+          for index, item in enumerate(defManyToOneOptions):
+              if index==0:
+                resources.write("    IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
+                resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
+              elif index == len(defManyToOneOptions) - 1: 
+                resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n")  
+                resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
+                resources.write('    END \n')
+              else: 
+                resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
+                resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
     resources.write('\n')
 
     test.write('    The user submits '+ibed['bpmnElementId']+'\n')
