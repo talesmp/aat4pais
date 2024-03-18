@@ -6,7 +6,7 @@ Resource    FriendlyShoulderProcess_resources.robot
 Test Setup    kwFakerDataSetup
 
 *** Variables ***
-@{TaskNames}    TaskAnalyseComplaint  TaskReviewEscalation
+@{TaskNames}    TaskAnalyseComplaint  TaskReviewEscalation  TaskAcknowledge
 
 *** Test Cases ***
 TC_Blind
@@ -21,6 +21,9 @@ TC_Blind
         ELSE IF    $found_task == "TaskReviewEscalation"
             kwFakerDataSetup
             kwTaskReviewEscalation
+        ELSE IF    $found_task == "TaskAcknowledge"
+            kwFakerDataSetup
+            kwTaskAcknowledge
         ELSE IF    $found_task == "No task available."
             ${processRunning}=    Set Variable    ${False}
             Set Test Variable    ${processRunning}
@@ -42,6 +45,9 @@ TC_BlindBatch
             ELSE IF    $found_task == "TaskReviewEscalation"
                 kwFakerDataSetup
                 kwTaskReviewEscalation
+            ELSE IF    $found_task == "TaskAcknowledge"
+                kwFakerDataSetup
+                kwTaskAcknowledge
             ELSE IF    $found_task == "No task available."
                 ${processRunning}=    Set Variable    ${False}
                 Set Test Variable    ${processRunning}
@@ -52,6 +58,7 @@ TC_BlindBatch
 
 TC_Linear 
     [Documentation]  Condition Expressions: 
+...                  ${processInstance.friendlyShoulder.babblingCharacterization.type== 'complaint'}
 ...                  ${processInstance.friendlyShoulder.gravity <= 6}
 ...                  ${processInstance.friendlyShoulder.gravity > 6}
 ...                  ${processInstance.friendlyShoulder.log == false}
@@ -62,6 +69,7 @@ TC_Linear
     kwRequestForm
     kwTaskAnalyseComplaint
     kwTaskReviewEscalation
+    kwTaskAcknowledge
 
 TC_LinearBatch 
     [Documentation]  Execute TC_Linear for i=10 consecutive times
@@ -99,14 +107,17 @@ kwFindFirstAvailableTask
 kwFakerDataSetup
     ${faker-log}    FakerLibrary.Boolean
     Set Test Variable    ${faker-log}
-    ${faker-gravity}    FakerLibrary.Random Int  min=1  max=20
+    ${faker-gravity}    FakerLibrary.Random Int  min=1  max=10
     Set Test Variable    ${faker-gravity}
     ${faker-date}    FakerLibrary.Date
     Set Test Variable    ${faker-date}
-    ${faker-description}    FakerLibrary.Sentence  nb_words=8
-    Set Test Variable    ${faker-description}
     ${faker-response}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-response}
+    ${faker-description}    FakerLibrary.Sentence  nb_words=8
+    Set Test Variable    ${faker-description}
+    # double-check the following collection in 'ext_word_list' =====>                     <===== 
+    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['complaint']
+    Set Test Variable    ${faker-babblingCharacterization.type}
     ${processRunning}=    Set Variable    ${True}
     Set Test Variable    ${processRunning}
 
@@ -140,4 +151,11 @@ kwTaskReviewEscalation
     The user is in TaskReviewEscalation
     The user fills TaskReviewEscalation
     The user submits TaskReviewEscalation
+
+kwTaskAcknowledge
+    [Arguments]  
+    [Documentation]  
+    The user is in TaskAcknowledge
+    The user fills TaskAcknowledge
+    The user submits TaskAcknowledge
 

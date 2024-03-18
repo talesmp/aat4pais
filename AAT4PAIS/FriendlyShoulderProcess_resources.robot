@@ -10,6 +10,8 @@ ${url_my_tasks}    ${url_home}my-candidate-tasks
 ${locator-friendly-shoulder-start-form-babblingCharacterization.type}    friendly-shoulder-start-form-babblingCharacterization
 ${locator-friendly-shoulder-start-form-date}    friendly-shoulder-start-form-date
 ${locator-friendly-shoulder-start-form-description}    friendly-shoulder-start-form-description
+${locator-task-acknowledge-log}    task-acknowledge-log
+${locator-task-acknowledge-response}    task-acknowledge-response
 ${locator-task-analyse-complaint-gravity}    task-analyse-complaint-gravity
 ${locator-task-analyse-complaint-log}    task-analyse-complaint-log
 ${locator-task-analyse-complaint-response}    task-analyse-complaint-response
@@ -50,6 +52,11 @@ The user fills RequestForm
     Wait Until Page Contains    Create or edit a 
     Input Text When Element Is Visible    friendly-shoulder-start-form-description    ${faker-description} 
     Input Text When Element Is Visible    friendly-shoulder-start-form-date    ${faker-date} 
+    Click Element When Visible    friendly-shoulder-start-form-babblingCharacterization 
+    ${list_options}=    Get WebElements    //select[@id='friendly-shoulder-start-form-babblingCharacterization']/option 
+    ${options_length}=    Get Length    ${list_options} 
+    ${random_index}=    Random Int    1    ${options_length - 1} 
+    Select From List By Index    friendly-shoulder-start-form-babblingCharacterization    ${random_index} 
 
 The user submits RequestForm
     [Arguments]  
@@ -107,6 +114,33 @@ The user fills TaskReviewEscalation
     Input Text When Element Is Visible    task-review-escalation-response    ${faker-response} 
 
 The user submits TaskReviewEscalation
+    [Arguments]  
+    [Documentation]  
+    Sleep    500ms  
+    Capture Page Screenshot  
+    Click Button    //button[@type='submit'][contains(.,'Complete')] 
+
+The user is in TaskAcknowledge
+    [Arguments]  
+    [Documentation]  
+    Sleep    500ms  
+    Click Element If Visible    xpath:/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[12]/div[1]/button[1]  
+    Wait Until Page Contains    TaskAcknowledge
+
+The user fills TaskAcknowledge
+    [Arguments]  
+    [Documentation]  
+    Wait Until Page Contains    TaskAcknowledge 
+    IF    ${faker-log} is True 
+        Wait Until Element Is Visible    task-acknowledge-log 
+        Select Checkbox    task-acknowledge-log 
+    ELSE IF    ${faker-log} is False 
+        Wait Until Element Is Visible    task-acknowledge-log 
+        Unselect Checkbox    task-acknowledge-log 
+    END 
+    Input Text When Element Is Visible    task-acknowledge-response    ${faker-response} 
+
+The user submits TaskAcknowledge
     [Arguments]  
     [Documentation]  
     Sleep    500ms  

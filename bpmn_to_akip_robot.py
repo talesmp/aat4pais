@@ -10,17 +10,28 @@
 
 # Import Libraries
 import os
+import glob
 import xml.etree.ElementTree as ET
 import json
 import re    # `camel_to_dash` function
 
+def find_files_with_extension(directory, extension):
+    return glob.glob(f"{directory}/*.{extension}")
+
 # Files locations
+
+process_name = 'FriendlyShoulder'
+# process_name = 'TravelPLan'
+
 current_directory = os.getcwd().replace('\\', '/')
 print(current_directory)
 robot_file_path = current_directory+'/AAT4PAIS/'
-executed_kw_json_path = current_directory+'/BPMNandJSONs/FriendlyShoulder/executedKeywords.json'
-bpmn_path = current_directory+'/BPMNandJSONs/FriendlyShoulder/friendlyShoulder.bpmn'
-json_folder_path = current_directory+'/BPMNandJSONs/FriendlyShoulder/'
+
+bpmn_path = find_files_with_extension(current_directory+'/BPMNandJSONs/'+process_name, 'bpmn')[0]
+json_folder_path = current_directory+'/BPMNandJSONs/'+process_name+'/'
+executed_kw_json_path = current_directory+'/BPMNandJSONs/'+process_name+'/executedKeywords.json'
+# current_directory+'/BPMNandJSONs/'+process_name+'/friendlyShoulder.bpmn'
+
 
 # def list_folders_in_directory(directory):
 #   for root, dirs, files in os.walk(directory):
@@ -195,13 +206,13 @@ root = tree.getroot()
 ns = {'bpmn': root.tag.split('}')[0][1:], 'xsi': 'http://www.w3.org/2001/XMLSchema-instance'}
 
 # Define the tags of the BPMN Elements to search for
-tags = ['startEvent', 'userTask', 'exclusiveGateway', 'endEvent']
+tags = ['startEvent', 'userTask', 'exclusiveGateway', 'inclusiveGateway', 'endEvent']
 
-interactableBpmnElementsDict_notDT = []
-interactableBpmnElementIdsList_notDT = []
-bpmnGateways_notDT = []
-filteredUserTasks_notDT = []
-filteredBpmnElementIds_notDT = []
+interactableBpmnElementsDict = []
+interactableBpmnElementIdsList = []
+bpmnGateways = []
+filteredUserTasks = []
+filteredBpmnElementIds = []
 
 # Iterate over all elements with the specified tags
 for tag in tags:
@@ -214,41 +225,42 @@ for tag in tags:
         if tag == 'startEvent':
           startEventId = elem.get('id')
         # Get a List and Dictionary of the Elements which should have Human interaction, i.e. Start Event and User Tasks
-        if tag in ['startEvent', 'userTask'] and elem.get('id') not in interactableBpmnElementIdsList_notDT:
-          interactableBpmnElementsDict_notDT.append(tempDict)
-          interactableBpmnElementIdsList_notDT.append(elem.get('id'))
-        # Get a Dictionary with all Exclusive Gateways, to find its related conditions later on
-        if tag in ['exclusiveGateway'] and elem.get('id') not in bpmnGateways_notDT:
-          bpmnGateways_notDT.append(tempDict)
+        if tag in ['startEvent', 'userTask'] and elem.get('id') not in interactableBpmnElementIdsList:
+          interactableBpmnElementsDict.append(tempDict)
+          interactableBpmnElementIdsList.append(elem.get('id'))
+        # Get a Dictionary with all Exclusive and Inclusive Gateways, to find its related conditions later on
+        if tag in ['exclusiveGateway','inclusiveGateway'] and elem.get('id') not in bpmnGateways:
+          bpmnGateways.append(tempDict)
         # Get a list of Start Event, User Tasks and End Events, which may be unnecessary, after all
-        if tag in ['startEvent', 'userTask', 'endEvent'] and elem.get('id') not in filteredBpmnElementIds_notDT:
-          filteredBpmnElementIds_notDT.append(elem.get('id'))
+        if tag in ['startEvent', 'userTask', 'endEvent'] and elem.get('id') not in filteredBpmnElementIds:
+          filteredBpmnElementIds.append(elem.get('id'))
         # Get a list of User Tasks
-        if tag=='userTask' and elem.get('id') not in filteredUserTasks_notDT:
-          filteredUserTasks_notDT.append(elem.get('id'))
-        elem_id = elem.get('id')
+        if tag=='userTask' and elem.get('id') not in filteredUserTasks:
+          filteredUserTasks.append(elem.get('id'))
 
-# print(startEventId)
+""" # Print the results of the BPMN Elements found 
+print(startEventId)
 print("\n====================================\n")
-print("interactableBpmnElementsDict_notDT  \n")
-print(interactableBpmnElementsDict_notDT)
+print("interactableBpmnElementsDict  \n")
+print(interactableBpmnElementsDict)
 print("\n====================================\n")
-print("interactableBpmnElementIdsList_notDT  \n")
-print(interactableBpmnElementIdsList_notDT)
+print("interactableBpmnElementIdsList  \n")
+print(interactableBpmnElementIdsList)
 print("\n====================================\n")
-print("filteredBpmnElementIds_notDT  \n")
-print(filteredBpmnElementIds_notDT)
+print("filteredBpmnElementIds  \n")
+print(filteredBpmnElementIds)
 print("\n====================================\n")
-print("filteredUserTasks_notDT  \n")
-print(filteredUserTasks_notDT)
+print("filteredUserTasks  \n")
+print(filteredUserTasks)
 print("\n====================================\n")
-print("bpmnGateways_notDT  \n")
-print(bpmnGateways_notDT)
+print("bpmnGateways  \n")
+print(bpmnGateways)
 print("\n====================================\n")
+"""
 
 # Get all outgoing flow gateway conditions in alphabetical order
 crudeOutgoingGatewayConditions = []
-for gateway in bpmnGateways_notDT:
+for gateway in bpmnGateways:
   gatewayId = gateway['bpmnElementId']
   conditionsDict = find_outgoing_condition_expressions_from_gateway(gatewayId)
   conditions = conditionsDict['outgoingConditions']
@@ -281,7 +293,7 @@ print(domainNameFromProcessId)
 # Extracting the Interactable Fields of each Form from the AgileKip Metadata JSON files
 jsonFilesContentDictList = []
 for jsonFile in os.listdir(json_folder_path):
-    if jsonFile.endswith('.json') and (jsonFile == domainNameFromProcessId+"StartForm.json" or jsonFile in [userTask+".json" for userTask in filteredUserTasks_notDT]):
+    if jsonFile.endswith('.json') and (jsonFile == domainNameFromProcessId+"StartForm.json" or jsonFile in [userTask+".json" for userTask in filteredUserTasks]):
         with open(os.path.join(json_folder_path, jsonFile)) as f:
             jsonFilesContentDictList.append(filter_interactable_fields_from_json(json.load(f)))
 print("\n====================================\n")
@@ -335,6 +347,8 @@ print('\n=====================================\n')
 
 # Manipulating the Robot Framework files
 
+# https://marketsquare.github.io/robotframework-faker/
+
 robotTestFileName = processIdFromBpmn+'_test.robot'
 robotResourcesFileName = processIdFromBpmn+'_resources.robot'
 with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+robotResourcesFileName, 'w') as resources:
@@ -356,7 +370,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
 
   # Variables section
   test.write('*** Variables ***\n')
-  test.write('@{TaskNames}    '+'  '.join(filteredUserTasks_notDT)+'\n\n')
+  test.write('@{TaskNames}    '+'  '.join(filteredUserTasks)+'\n\n')
   resources.write('*** Variables ***\n')
   resources.write('${url_home}    http://localhost:8080/\n')
   resources.write('${url_my_tasks}    ${url_home}my-candidate-tasks\n')
@@ -374,7 +388,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('    kw'+startEventId+'\n')
   test.write('    WHILE    $processRunning == True\n')
   test.write('        kwFindFirstAvailableTask\n')
-  for i, userTask in enumerate(filteredUserTasks_notDT):
+  for i, userTask in enumerate(filteredUserTasks):
     if i == 0:
         test.write('        IF    $found_task == "'+userTask+'"\n')
     else:
@@ -398,7 +412,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('        kw'+startEventId+'\n')
   test.write('        WHILE    $processRunning == True\n')
   test.write('            kwFindFirstAvailableTask\n')
-  for i, userTask in enumerate(filteredUserTasks_notDT):
+  for i, userTask in enumerate(filteredUserTasks):
     if i == 0:
       test.write('            IF    $found_task == "'+userTask+'"\n')
     else:
@@ -418,7 +432,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('    [Documentation]  Condition Expressions: \n...                  '+'\n...                  '.join(crudeOutgoingGatewayConditions)+'\n...  ===> arrange the following Keywords below according to the Conditions above:\n')
   test.write('    kwFakerDataSetup\n')
   test.write('    kwLogin\n')
-  test.write('    kw'+'\n    kw'.join(interactableBpmnElementIdsList_notDT)+'\n')
+  test.write('    kw'+'\n    kw'.join(interactableBpmnElementIdsList)+'\n')
   test.write('\n')
   ### 10 times batch execution of Linear ###
   test.write('TC_LinearBatch \n')
@@ -529,7 +543,25 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   resources.write('    Wait Until Element Is Visible    task-instance-heading\n')
   resources.write('\n')
 
-  for ibed in interactableBpmnElementsDict_notDT:
+  ### Implement Arguments strategies for each interactable field ###
+  ### Issue 7 ###
+  """
+  kwRequestForm
+    [Arguments]    ${argTest_description}=${faker-description}    ${argTest_date}=${faker-date}
+    [Documentation]  
+    The user is in RequestForm
+    The user fills RequestForm    ${argTest-description}    ${argTest-date}
+    The user submits RequestForm
+
+  The user fills RequestForm
+    [Arguments]    ${argRes_description}=${faker-description}    ${argRes_date}=${faker-date}
+    [Documentation]  
+    Wait Until Page Contains    Create or edit a 
+    Input Text When Element Is Visible    friendly-shoulder-start-form-description    ${argRes_description}
+    Input Text When Element Is Visible    friendly-shoulder-start-form-date    ${argRes_description}
+  """
+  
+  for ibed in interactableBpmnElementsDict:
     test.write('kw'+ibed['bpmnElementId']+'\n')
     test.write('    [Arguments]  \n')
     test.write('    [Documentation]  \n')
@@ -578,21 +610,28 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
         resources.write('        Unselect Checkbox    '+defFieldLocator+' \n')
         resources.write('    END \n')
       elif defFieldType =='many-to-one':
-        if 'manyToOneOptions' in field:
-          defManyToOneOptions = field['manyToOneOptions']
-          resources.write('    Click Element When Visible    '+defFieldLocator+' \n')
-          for index, item in enumerate(defManyToOneOptions):
-              if index==0:
-                resources.write("    IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
-                resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
-              elif index == len(defManyToOneOptions) - 1: 
-                resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n")  
-                resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
-                resources.write('    END \n')
-              else: 
-                resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
-                resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
+         resources.write('    Click Element When Visible    '+defFieldLocator+' \n')
+         resources.write("    ${list_options}=    Get WebElements    //select[@id='"+defFieldLocator+"']/option \n")
+         resources.write('    ${options_length}=    Get Length    ${list_options} \n')
+         resources.write('    ${random_index}=    Random Int    1    ${options_length - 1} \n')
+         resources.write('    Select From List By Index    '+defFieldLocator+'    ${random_index} \n')
+        # if 'manyToOneOptions' in field:
+        #   defManyToOneOptions = field['manyToOneOptions']
+        #   resources.write('    Click Element When Visible    '+defFieldLocator+' \n')
+        #   for index, item in enumerate(defManyToOneOptions):
+        #       if index==0:
+        #         resources.write("    IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
+        #         resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
+        #       elif index == len(defManyToOneOptions) - 1: 
+        #         resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n")  
+        #         resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
+        #         # resources.write('    END \n')
+        #       else: 
+        #         resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
+        #         resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
+        #   resources.write('    END \n')
     resources.write('\n')
+
 
     test.write('    The user submits '+ibed['bpmnElementId']+'\n')
     ### https://github.com/talesmp/aat4pais/issues/4
@@ -612,7 +651,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
 
 ### https://github.com/talesmp/aat4pais/issues/3
 
-# já estará com o `ibed`` (interactableBpmnElementIdsList_notDT) situado;
+# já estará com o `ibed`` (interactableBpmnElementIdsList) situado;
 """
 [
   'RequestForm', 
@@ -630,7 +669,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
 
 #endregion
 
-#region TO DO 
+#region TO DO
 #####################################################################################################
 
 # """# Hush... (mining)"""

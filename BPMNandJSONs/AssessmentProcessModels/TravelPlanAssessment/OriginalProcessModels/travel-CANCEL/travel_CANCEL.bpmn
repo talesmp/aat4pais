@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+  <bpmn:message id="Message_155ibmn" />
+  <bpmn:collaboration id="Collaboration_1xkm6ln">
+    <bpmn:participant id="Participant_00krxpg" name="Plan" processRef="TravelPlanProcessCANCEL" />
+  </bpmn:collaboration>
+  <bpmn:process id="TravelPlanProcessCANCEL" name="Travel Plan Process" isExecutable="true">
+    <bpmn:documentation># Planning a Trip
+
+![Planning a Trip](https://www.ytravelblog.com/wp-content/uploads/2018/11/planning-a-trip-tips-and-challenges-2.jpg)
+
+**Planning a trip can feel like both the most exciting AND the most overwhelming part of travel.**
+Sure, creating a Pinterest board full of gorgeous pictures is fun, but then you start trying to figure out the actual logistics and it hits you … oh god, this is SO MUCH WORK. Cue panic attacks. *Wow, I totally just described our wedding planning process, too. Anyone else?*
+
+
+But planning a trip doesn’t have to be the source of constant anxiety and overwhelm! Through the years, I’ve perfected my trip planning process, and I’ve got it down to a fine science.
+
+
+Er, well, maybe not a science, but sort of like a general step-by-step outline.  
+**Breaking down each of the steps to planning a trip helps me cut through the confusion and tackle stuff in a practical, down to earth way.** 
+
+
+
+So, this travel plan process aids you in this mission and consists of the following tasks:
+
+1. Buy **Flight** Tickets
+1. Book a **Hotel**
+1. Rent a **Car**</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_08zvyo0">
+      <bpmn:lane id="Lane_0wjkcqa">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TaskCar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1x9cyv3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TaskFlight</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TaskHotel</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0a1mz5n</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0sv7u4u</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_147oiow</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1n3x4a2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:documentation>Domain fields updated:
+- businessKey
+- originCity
+- destinCity
+- initialDate
+- endDate
+- travelPlan.status = PENDING</bpmn:documentation>
+      <bpmn:outgoing>SequenceFlow_125v9sm</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="TaskCar" name="Rent a car">
+      <bpmn:documentation># Renting a car
+
+
+Many folks might pack up their own car for such an adventure. But if you want to save on mileage, or simply secure a vehicle that’s bigger or better than your own, you might consider a rental instead. Here are 10 things to do whenever you rent a car to ensure you get the best deal, earn bonus points or cash back when possible, and are protected if things go wrong.
+
+
+1. Avoid airport locations
+1. Comparison shop
+1. Check the details
+1. Score bonuses and discounts through partnerships
+1. Hit the gas on credit card category bonuses
+1. Ensure you’re insured
+1. Think about roadside assistance</bpmn:documentation>
+      <bpmn:incoming>Flow_1o2e6oo</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0mapilh</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">2</bpmn:loopCardinality>
+      </bpmn:multiInstanceLoopCharacteristics>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_1x9cyv3">
+      <bpmn:incoming>Flow_01dlia4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="TaskFlight" name="Buy flight tickets">
+      <bpmn:documentation># Buying the Flight Tickets
+
+
+Airfare can easily be the largest expense of your trip. Expensive plane tickets mean you need to choose a more affordable destination or spend less money at your vacation stop to stay within your spending limit. If the idea of booking cheap flights sounds appealing to you, these 10 tips will help your air travel become more reasonable.
+
+
+1. Book Early for Cheap Flights
+1. Set Price Alerts
+1. Be Flexible
+1. Book a Connecting Flight
+1. Consider Discount Airlines
+1. Use More Than One Travel Portal
+1. Browse Airline Specials
+1. Use an Airline Credit Card to Avoid Baggage Fees
+1. Use Award Miles
+1. Use Your Credit Card Travel Credits</bpmn:documentation>
+      <bpmn:incoming>SequenceFlow_125v9sm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1o5n6g7</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="TaskHotel" name="Book a hotel">
+      <bpmn:documentation># Booking your accommodation
+
+
+There are tricks and tips you can use to find the best room rates so you can enjoy your trip guilt-free.
+
+
+1. Look into business hotels.
+1. Ask for a corner room.
+1. Check in near the end of the day.
+1. Bundle your hotel and flight booking.
+1. Sign up for a hotel's loyalty programs.
+1. Sign up for alerts on price drops.
+1. Use coupon codes.</bpmn:documentation>
+      <bpmn:incoming>SequenceFlow_1o5n6g7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1m0sj2x</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0a1mz5n">
+      <bpmn:incoming>SequenceFlow_1m0sj2x</bpmn:incoming>
+      <bpmn:outgoing>Flow_1o2e6oo</bpmn:outgoing>
+      <bpmn:outgoing>Flow_18hhpc8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0sv7u4u">
+      <bpmn:incoming>SequenceFlow_0mapilh</bpmn:incoming>
+      <bpmn:incoming>Flow_18hhpc8</bpmn:incoming>
+      <bpmn:outgoing>Flow_01dlia4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_18hhpc8" sourceRef="Gateway_0a1mz5n" targetRef="Gateway_0sv7u4u">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!pi.getTravelPlan().getName().contains("byCar")}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_01dlia4" sourceRef="Gateway_0sv7u4u" targetRef="EndEvent_1x9cyv3" />
+    <bpmn:sequenceFlow id="Flow_1o2e6oo" sourceRef="Gateway_0a1mz5n" targetRef="TaskCar">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${pi.getTravelPlan().getName().contains("byCar")}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1m0sj2x" sourceRef="TaskHotel" targetRef="Gateway_0a1mz5n" />
+    <bpmn:sequenceFlow id="SequenceFlow_1o5n6g7" sourceRef="TaskFlight" targetRef="TaskHotel" />
+    <bpmn:sequenceFlow id="SequenceFlow_125v9sm" sourceRef="StartEvent_1" targetRef="TaskFlight" />
+    <bpmn:sequenceFlow id="SequenceFlow_0mapilh" sourceRef="TaskCar" targetRef="Gateway_0sv7u4u" />
+    <bpmn:subProcess id="Activity_147oiow" triggeredByEvent="true">
+      <bpmn:userTask id="Activity_1nghksv" name="From Cancel">
+        <bpmn:incoming>Flow_0zryan8</bpmn:incoming>
+        <bpmn:outgoing>Flow_1cigylf</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:sequenceFlow id="Flow_0zryan8" sourceRef="Event_0t3ogzs" targetRef="Activity_1nghksv" />
+      <bpmn:sequenceFlow id="Flow_1cigylf" sourceRef="Activity_1nghksv" targetRef="Event_1lj8yrr" />
+      <bpmn:startEvent id="Event_0t3ogzs" name="cancel">
+        <bpmn:outgoing>Flow_0zryan8</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_1cs445l" messageRef="Message_09nxqlu" />
+      </bpmn:startEvent>
+      <bpmn:endEvent id="Event_1lj8yrr">
+        <bpmn:incoming>Flow_1cigylf</bpmn:incoming>
+        <bpmn:terminateEventDefinition id="TerminateEventDefinition_1woky6k" />
+      </bpmn:endEvent>
+    </bpmn:subProcess>
+    <bpmn:subProcess id="Activity_1n3x4a2" triggeredByEvent="true">
+      <bpmn:endEvent id="Event_1b6uesj">
+        <bpmn:incoming>Flow_1ujwxyd</bpmn:incoming>
+        <bpmn:terminateEventDefinition id="TerminateEventDefinition_19kxd4g" />
+      </bpmn:endEvent>
+      <bpmn:userTask id="Activity_0izzwir" name="From Timer">
+        <bpmn:incoming>Flow_10js1z3</bpmn:incoming>
+        <bpmn:outgoing>Flow_1ujwxyd</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:sequenceFlow id="Flow_10js1z3" sourceRef="Event_0n69wd7" targetRef="Activity_0izzwir" />
+      <bpmn:sequenceFlow id="Flow_1ujwxyd" sourceRef="Activity_0izzwir" targetRef="Event_1b6uesj" />
+      <bpmn:startEvent id="Event_0n69wd7" name="cancel">
+        <bpmn:outgoing>Flow_10js1z3</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_00d8q6y">
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2M</bpmn:timeDuration>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+  </bpmn:process>
+  <bpmn:message id="Message_0qigc16" name="callInner" />
+  <bpmn:message id="Message_09nxqlu" name="cancelPlan" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1xkm6ln">
+      <bpmndi:BPMNShape id="Participant_00krxpg_di" bpmnElement="Participant_00krxpg" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1209" height="570" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0wjkcqa_di" bpmnElement="Lane_0wjkcqa" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="1179" height="570" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_18hhpc8_di" bpmnElement="Flow_18hhpc8">
+        <di:waypoint x="681" y="166" />
+        <di:waypoint x="681" y="241" />
+        <di:waypoint x="971" y="241" />
+        <di:waypoint x="971" y="166" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01dlia4_di" bpmnElement="Flow_01dlia4">
+        <di:waypoint x="996" y="141" />
+        <di:waypoint x="1313" y="141" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1o2e6oo_di" bpmnElement="Flow_1o2e6oo">
+        <di:waypoint x="706" y="141" />
+        <di:waypoint x="781" y="141" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1m0sj2x_di" bpmnElement="SequenceFlow_1m0sj2x">
+        <di:waypoint x="601" y="141" />
+        <di:waypoint x="656" y="141" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="597" y="124" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1o5n6g7_di" bpmnElement="SequenceFlow_1o5n6g7">
+        <di:waypoint x="431" y="141" />
+        <di:waypoint x="501" y="141" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="374" y="124" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_125v9sm_di" bpmnElement="SequenceFlow_125v9sm">
+        <di:waypoint x="259" y="141" />
+        <di:waypoint x="331" y="141" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="162" y="134" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0mapilh_di" bpmnElement="SequenceFlow_0mapilh">
+        <di:waypoint x="881" y="141" />
+        <di:waypoint x="946" y="141" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="810" y="134" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="223" y="123" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="96" y="167" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_09smfnk_di" bpmnElement="TaskCar">
+        <dc:Bounds x="781" y="101" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1x9cyv3_di" bpmnElement="EndEvent_1x9cyv3">
+        <dc:Bounds x="1313" y="123" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="882" y="167" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0exhugw_di" bpmnElement="TaskFlight">
+        <dc:Bounds x="331" y="101" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1v2u5s7_di" bpmnElement="TaskHotel">
+        <dc:Bounds x="501" y="101" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0a1mz5n_di" bpmnElement="Gateway_0a1mz5n" isMarkerVisible="true">
+        <dc:Bounds x="656" y="116" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0sv7u4u_di" bpmnElement="Gateway_0sv7u4u" isMarkerVisible="true">
+        <dc:Bounds x="946" y="116" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13iba4m_di" bpmnElement="Activity_147oiow" isExpanded="true">
+        <dc:Bounds x="250" y="280" width="631" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0zryan8_di" bpmnElement="Flow_0zryan8">
+        <di:waypoint x="326" y="340" />
+        <di:waypoint x="540" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cigylf_di" bpmnElement="Flow_1cigylf">
+        <di:waypoint x="640" y="340" />
+        <di:waypoint x="772" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0ijy3e3_di" bpmnElement="Event_0t3ogzs">
+        <dc:Bounds x="290" y="322" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="292" y="365" width="32" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1cm7na5_di" bpmnElement="Event_1lj8yrr">
+        <dc:Bounds x="772" y="322" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0lz7jnr_di" bpmnElement="Activity_1nghksv">
+        <dc:Bounds x="540" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1n3x4a2_di" bpmnElement="Activity_1n3x4a2" isExpanded="true">
+        <dc:Bounds x="255" y="430" width="621" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_10js1z3_di" bpmnElement="Flow_10js1z3">
+        <di:waypoint x="331" y="490" />
+        <di:waypoint x="545" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ujwxyd_di" bpmnElement="Flow_1ujwxyd">
+        <di:waypoint x="645" y="490" />
+        <di:waypoint x="777" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1b6uesj_di" bpmnElement="Event_1b6uesj">
+        <dc:Bounds x="777" y="472" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0izzwir_di" bpmnElement="Activity_0izzwir">
+        <dc:Bounds x="545" y="450" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qj0nfw_di" bpmnElement="Event_0n69wd7">
+        <dc:Bounds x="295" y="472" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="297" y="515" width="32" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
