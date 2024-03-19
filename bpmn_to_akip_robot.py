@@ -15,62 +15,29 @@ import xml.etree.ElementTree as ET
 import json
 import re    # `camel_to_dash` function
 
+# [General] Finding Files with Extension
 def find_files_with_extension(directory, extension):
     return glob.glob(f"{directory}/*.{extension}")
 
 # Files locations
 
 process_name = 'FriendlyShoulder'
-# process_name = 'TravelPLan'
+# process_name = 'TravelPlan'
 
 current_directory = os.getcwd().replace('\\', '/')
 print(current_directory)
-robot_file_path = current_directory+'/AAT4PAIS/'
+os.makedirs(current_directory+'/AAT4PAIS/'+process_name, exist_ok=True)
+robot_file_path = current_directory+'/AAT4PAIS/'+process_name+'/'
+#executed_kw_json_path = robot_file_path+'executedKeywords.json'
 
 bpmn_path = find_files_with_extension(current_directory+'/BPMNandJSONs/'+process_name, 'bpmn')[0]
 json_folder_path = current_directory+'/BPMNandJSONs/'+process_name+'/'
-executed_kw_json_path = current_directory+'/BPMNandJSONs/'+process_name+'/executedKeywords.json'
-# current_directory+'/BPMNandJSONs/'+process_name+'/friendlyShoulder.bpmn'
-
-
-# def list_folders_in_directory(directory):
-#   for root, dirs, files in os.walk(directory):
-#       if '.git' in dirs:
-#           dirs.remove('.git')  # Skip the .git folder
-#       print("Folders in", root)
-#       for folder in dirs:
-#           print(os.path.join(root, folder))
-# # Get current working directory
-# current_directory = os.getcwd()
-# # List all folders in the current directory and its subdirectories
-# list_folders_in_directory(current_directory)
 
 #endregion
 
 #region Functions
 
-"""# Functions
-- [BPMN-DTish] find_dict_and_index_by_key_name: Find the dictionary and its index from the TC name
-- [BPMN] find_tag_type_by_id: Find the type of a given element by it's tag using the ID
-- [BPMN/BPMN-DTish] find_condition_expression_in_flow: Find the condition in the flow between two elements with their IDs
-- [BPMN] find_outgoing_condition_expressions_from_gateway
-- [Generic] camel_to_dash: Transform Camel Case String to Dash String
-- [AKIP] filter_interactable_fields_from_json: Filter interactable fields from JSON
-- [AKIP] extract_many_to_one_collection: Extract the collection of options of a given 'many-to-one' Complex Entity
-"""
-
-#region [BPMN-DT] Find the dictionary and its index from the TC name
-
-def find_dict_and_index_by_key_name(dict_list, name):
-    for i, dictionary in enumerate(dict_list):
-        if dictionary['name'] == name:
-            return dictionary, i
-    return None, None
-# If the function is called with [0] in the end, it returns only the dictionary, and with [1] it returns the index
-
-#endregion
-
-#region [BPMN] Find the type of a given element by it's tag using the ID
+  #region [BPMN] Find the type of a given element by it's tag using the ID
 
 def find_tag_type_by_id(id):
     # Find the element with the specified id attribute
@@ -83,9 +50,56 @@ def find_tag_type_by_id(id):
 # print(find_tag_type_by_id(tc_list[find_dict_and_index_by_key_name(tc_list, 'TC06')[1]]['elementId'][2]))
 # startEvent; endEvent; sequenceFlow; userTask; exclusiveGateway; serviceTask; textAnnotation
 
-#endregion
+  #endregion
 
-#region [BPMN/BPMN-DTish] Find the condition in the flow between two elements with the IDs in the list of Test Cases
+  #region [AKIP] Filter interactable fields from JSON
+
+def filter_interactable_fields_from_json(json_dict):
+    filtered_dict = {}
+    filtered_fields = []
+    # filtered_relationships = []
+    for field in json_dict["fields"]:
+        if "fieldReadOnly" not in field or not field["fieldReadOnly"]:
+            filtered_fields.append({"fieldName": field["fieldName"], "fieldType": field["fieldType"], "fieldLocator": camel_to_dash(json_dict["name"])+'-'+field["fieldName"]})
+    for relationship in json_dict["relationships"]:
+        if "fieldReadOnly" not in relationship or not relationship["fieldReadOnly"]:
+          filtered_fields.append({"fieldName": relationship["otherEntityName"]+'.'+relationship["otherEntityField"], "fieldType": relationship["relationshipType"], "otherEntityField": relationship["otherEntityField"], "fieldLocator": camel_to_dash(json_dict["name"])+'-'+relationship["otherEntityName"]})
+    filtered_dict["jsonName"] = json_dict["name"]
+    filtered_dict["jsonEntityType"] = json_dict["entityType"]
+    if json_dict["entityType"] == 'user-task-form':
+      filtered_dict["bpmnElementType"] = 'userTask'
+      filtered_dict["bpmnElementId"] = json_dict["taskBpmnId"]
+    if json_dict["entityType"] == 'start-form':
+      filtered_dict["bpmnElementType"] = 'startEvent'
+      filtered_dict["bpmnElementId"] = startEventId
+    filtered_dict["formFieldPrefix"] = camel_to_dash(json_dict["name"])+'-'
+    if filtered_fields:
+      filtered_dict["jsonInteractableFields"] = filtered_fields
+    return filtered_dict
+
+  #endregion
+
+  #region [Generic] Transform Camel Case String to Dash String
+
+def camel_to_dash(string):
+    # insert a dash before all capital letters
+    string = re.sub('([A-Z])', r'-\1', string)
+    # convert to lowercase and remove leading dash (if any)
+    string = string.lower().lstrip('-')
+    return string
+
+  #endregion
+
+  #region [AKIP/Deprecated] Extract the collection of options of a given 'many-to-one' Complex Entity
+def extract_many_to_one_collection(input_list, target_substring):
+    pattern = rf"{re.escape(target_substring)}\s*==\s*\'(\w+)\'"
+    result = [match for string in input_list for match in re.findall(pattern, string)]
+    filteredResult = list(set(result))
+    return filteredResult
+
+  #endregion
+
+  #region [BPMN/Deprecated] Find the condition in the flow between two elements with the IDs in the list of Test Cases
 
 def find_condition_expression_in_flow(source, target):
   # Find the refs
@@ -104,9 +118,9 @@ def find_condition_expression_in_flow(source, target):
   return condition
 # print(find_condition_expression_in_flow(tc_list[2][1], tc_list[2][2]))
 
-#endregion
+  #endregion
 
-#region [BPMN] Find the conditions in the outgoing flows of a given Gateway
+  #region [BPMN/Deprecated] Find the conditions in the outgoing flows of a given Gateway
 
 def find_outgoing_condition_expressions_from_gateway(gatewayElementId):
   gatewayOutgoingConditionsDict = {}
@@ -134,65 +148,39 @@ def find_outgoing_condition_expressions_from_gateway(gatewayElementId):
     # A list of dictionaries, each containing the Flow Id and its Condition
     outgoingConditions.append(outgoingConditionDict)
   gatewayOutgoingConditionsDict['outgoingConditions'] = outgoingConditions
-
   return gatewayOutgoingConditionsDict
-#endregion
 
-#region [Generic] Transform Camel Case String to Dash String
+# crudeOutgoingGatewayConditions = []
+# for gateway in bpmnGateways:
+#   gatewayId = gateway['bpmnElementId']
+#   conditionsDict = find_outgoing_condition_expressions_from_gateway(gatewayId)
+#   conditions = conditionsDict['outgoingConditions']
+#   for condition in conditions:
+#     for value in condition.values():
+#       if value != 'No condition present.':
+#         crudeOutgoingGatewayConditions.append(value)
+# crudeOutgoingGatewayConditions.sort()
 
-def camel_to_dash(string):
-    # insert a dash before all capital letters
-    string = re.sub('([A-Z])', r'-\1', string)
-    # convert to lowercase and remove leading dash (if any)
-    string = string.lower().lstrip('-')
-    return string
+  #endregion
 
-#endregion
+  #region [BPMN/Deprecated] Find the dictionary and its index from the TC name
 
-#region [AKIP] Filter interactable fields from JSON
+def find_dict_and_index_by_key_name(dict_list, name):
+    for i, dictionary in enumerate(dict_list):
+        if dictionary['name'] == name:
+            return dictionary, i
+    return None, None
+# If the function is called with [0] in the end, it returns only the dictionary, and with [1] it returns the index
 
-def filter_interactable_fields_from_json(json_dict):
-    filtered_dict = {}
-    filtered_fields = []
-    filtered_relationships = []
-    for field in json_dict["fields"]:
-        if "fieldReadOnly" not in field or not field["fieldReadOnly"]:
-            filtered_fields.append({"fieldName": field["fieldName"], "fieldType": field["fieldType"], "fieldLocator": camel_to_dash(json_dict["name"])+'-'+field["fieldName"]})
-    for relationship in json_dict["relationships"]:
-        if "fieldReadOnly" not in relationship or not relationship["fieldReadOnly"]:
-          filtered_fields.append({"fieldName": relationship["otherEntityName"]+'.'+relationship["otherEntityField"], "fieldType": relationship["relationshipType"], "otherEntityField": relationship["otherEntityField"], "fieldLocator": camel_to_dash(json_dict["name"])+'-'+relationship["otherEntityName"]})
-    filtered_dict["jsonName"] = json_dict["name"]
-    filtered_dict["jsonEntityType"] = json_dict["entityType"]
-    if json_dict["entityType"] == 'user-task-form':
-      filtered_dict["bpmnElementType"] = 'userTask'
-      filtered_dict["bpmnElementId"] = json_dict["taskBpmnId"]
-    if json_dict["entityType"] == 'start-form':
-      filtered_dict["bpmnElementType"] = 'startEvent'
-      filtered_dict["bpmnElementId"] = startEventId
-    filtered_dict["formFieldPrefix"] = camel_to_dash(json_dict["name"])+'-'
-    if filtered_fields:
-      filtered_dict["jsonInteractableFields"] = filtered_fields
-    return filtered_dict
-
-#endregion
-
-#region [AKIP] Extract the collection of options of a given 'many-to-one' Complex Entity
-def extract_many_to_one_collection(input_list, target_substring):
-    pattern = rf"{re.escape(target_substring)}\s*==\s*\'(\w+)\'"
-    result = [match for string in input_list for match in re.findall(pattern, string)]
-    filteredResult = list(set(result))
-    return filteredResult
-
-#endregion
+  #endregion
 
 #endregion
 
 #region BPMN Manipulation
 
-"""# Find all elements of interest in BPMN
-
-Find all elements that are: Start Event; User Task; End Event; Exclusive Gateway
-
+""" 
+Find all elements of interest in BPMN
+Find all elements that are: Start Event; User Task; End Event; Exclusive and Inclusive Gateways
 Next steps: Service Tasks?
 """
 
@@ -210,7 +198,7 @@ tags = ['startEvent', 'userTask', 'exclusiveGateway', 'inclusiveGateway', 'endEv
 
 interactableBpmnElementsDict = []
 interactableBpmnElementIdsList = []
-bpmnGateways = []
+# bpmnGateways = []
 filteredUserTasks = []
 filteredBpmnElementIds = []
 
@@ -228,49 +216,15 @@ for tag in tags:
         if tag in ['startEvent', 'userTask'] and elem.get('id') not in interactableBpmnElementIdsList:
           interactableBpmnElementsDict.append(tempDict)
           interactableBpmnElementIdsList.append(elem.get('id'))
-        # Get a Dictionary with all Exclusive and Inclusive Gateways, to find its related conditions later on
-        if tag in ['exclusiveGateway','inclusiveGateway'] and elem.get('id') not in bpmnGateways:
-          bpmnGateways.append(tempDict)
+        # [deprecated] Get a Dictionary with all Exclusive and Inclusive Gateways, to find its related conditions later on
+        # if tag in ['exclusiveGateway','inclusiveGateway'] and elem.get('id') not in bpmnGateways:
+        #   bpmnGateways.append(tempDict)
         # Get a list of Start Event, User Tasks and End Events, which may be unnecessary, after all
         if tag in ['startEvent', 'userTask', 'endEvent'] and elem.get('id') not in filteredBpmnElementIds:
           filteredBpmnElementIds.append(elem.get('id'))
         # Get a list of User Tasks
         if tag=='userTask' and elem.get('id') not in filteredUserTasks:
           filteredUserTasks.append(elem.get('id'))
-
-""" # Print the results of the BPMN Elements found 
-print(startEventId)
-print("\n====================================\n")
-print("interactableBpmnElementsDict  \n")
-print(interactableBpmnElementsDict)
-print("\n====================================\n")
-print("interactableBpmnElementIdsList  \n")
-print(interactableBpmnElementIdsList)
-print("\n====================================\n")
-print("filteredBpmnElementIds  \n")
-print(filteredBpmnElementIds)
-print("\n====================================\n")
-print("filteredUserTasks  \n")
-print(filteredUserTasks)
-print("\n====================================\n")
-print("bpmnGateways  \n")
-print(bpmnGateways)
-print("\n====================================\n")
-"""
-
-# Get all outgoing flow gateway conditions in alphabetical order
-crudeOutgoingGatewayConditions = []
-for gateway in bpmnGateways:
-  gatewayId = gateway['bpmnElementId']
-  conditionsDict = find_outgoing_condition_expressions_from_gateway(gatewayId)
-  conditions = conditionsDict['outgoingConditions']
-  for condition in conditions:
-    for value in condition.values():
-      if value != 'No condition present.':
-        crudeOutgoingGatewayConditions.append(value)
-crudeOutgoingGatewayConditions.sort()
-
-# print(crudeOutgoingGatewayConditions)
 
 #endregion
 
@@ -288,18 +242,13 @@ processBindingJsonName = processIdFromBpmn
 domainJsonName = domainNameFromProcessId
 startFormJsonName = domainJsonName+"StartForm"
 
-print(domainNameFromProcessId)
-
-# Extracting the Interactable Fields of each Form from the AgileKip Metadata JSON files
 jsonFilesContentDictList = []
-for jsonFile in os.listdir(json_folder_path):
-    if jsonFile.endswith('.json') and (jsonFile == domainNameFromProcessId+"StartForm.json" or jsonFile in [userTask+".json" for userTask in filteredUserTasks]):
-        with open(os.path.join(json_folder_path, jsonFile)) as f:
-            jsonFilesContentDictList.append(filter_interactable_fields_from_json(json.load(f)))
-print("\n====================================\n")
-print("jsonFilesContentDictList  \n")
-print(jsonFilesContentDictList)
-print('\n=====================================\n')
+jsonFilesList = find_files_with_extension(json_folder_path, 'json')
+for jsonFile in jsonFilesList:
+  with open(os.path.join(json_folder_path, jsonFile)) as f:
+    tempJsonFilesContentDict = json.load(f)  # Fix: Assign the loaded JSON to a variable
+    if 'entityType' in tempJsonFilesContentDict and tempJsonFilesContentDict['entityType'] in ['start-form', 'user-task-form']:
+      jsonFilesContentDictList.append(filter_interactable_fields_from_json(tempJsonFilesContentDict))
 
 fieldLocators = set()
 bpmnElementIds = []
@@ -319,35 +268,16 @@ for e in jsonFilesContentDictList:
 
 # Sorting alphabetically to ease the understanding in the Robot file
 fieldLocators = sorted(fieldLocators, key=lambda x: x[0])
-print('\n=====================================\n')
-print("fieldLocators  \n")
-print(fieldLocators)
-print('\n=====================================\n')
 
 # Sorting by the type of field to ease the understanding in the Robot file
 unique_interactable_fields = sorted(unique_interactable_fields, key=lambda x: x[1])
-print('\n=====================================\n')
-print("unique_interactable_fields  \n")
-print(unique_interactable_fields)
-print('\n=====================================\n')
-
-# Extracting the Interactable Fields from each Form
-# for element in bpmnElementIds:
-#   # Selecting a specific Form
-#   form = next((f for f in jsonFilesContentDictList if f['bpmnElementId'] == element), None)
-#   print(form)
-#   # Getting the Interactable Fields from the Form
-#   interactableFields = form['jsonInteractableFields']
-#   print(interactableFields)
-#   print('======================================\n')
 
 #endregion
 
 #region Robot Framework Files Generation
 
 # Manipulating the Robot Framework files
-
-# https://marketsquare.github.io/robotframework-faker/
+  # Faker Library documentation: https://marketsquare.github.io/robotframework-faker/
 
 robotTestFileName = processIdFromBpmn+'_test.robot'
 robotResourcesFileName = processIdFromBpmn+'_resources.robot'
@@ -429,7 +359,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('\n')
   ### Linear ###
   test.write('TC_Linear \n')
-  test.write('    [Documentation]  Condition Expressions: \n...                  '+'\n...                  '.join(crudeOutgoingGatewayConditions)+'\n...  ===> arrange the following Keywords below according to the Conditions above:\n')
+  test.write('    [Documentation]  Arrange the following Keywords below according to the desired test path:\n')
   test.write('    kwFakerDataSetup\n')
   test.write('    kwLogin\n')
   test.write('    kw'+'\n    kw'.join(interactableBpmnElementIdsList)+'\n')
@@ -490,18 +420,6 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
     if uif[1] == 'Integer':
       test.write('    ${faker-'+uif[0]+'}    FakerLibrary.Random Int  min=1  max=10\n')
       test.write('    Set Test Variable    ${faker-'+uif[0]+'}\n')
-    if uif[1] == 'many-to-one':
-      ### https://github.com/talesmp/aat4pais/issues/5
-      inputSubstring = "processInstance."+domainNameInBpmnExpressions+"."+uif[0]
-      collectionResult = extract_many_to_one_collection(crudeOutgoingGatewayConditions, inputSubstring)
-      if len(collectionResult) > 0:
-        test.write("    # double-check the following collection in 'ext_word_list' =====>                     <===== \n")
-        for dictionary in jsonFilesContentDictList:
-          for field in dictionary.get('jsonInteractableFields', []):
-            if field.get('fieldName') == uif[0]:
-              field['manyToOneOptions'] = collectionResult
-        test.write("    ${faker-"+uif[0]+"}    FakerLibrary.Word  ext_word_list="+str(collectionResult)+"\n")
-        test.write('    Set Test Variable    ${faker-'+uif[0]+'}\n')
   test.write('    ${processRunning}=    Set Variable    ${True}\n')
   test.write('    Set Test Variable    ${processRunning}\n')
   test.write('\n')
@@ -543,10 +461,9 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   resources.write('    Wait Until Element Is Visible    task-instance-heading\n')
   resources.write('\n')
 
-  ### Implement Arguments strategies for each interactable field ###
-  ### Issue 7 ###
-  """
-  kwRequestForm
+  """ Issue 7 Implement Arguments strategies for each interactable field
+
+    kwRequestForm
     [Arguments]    ${argTest_description}=${faker-description}    ${argTest_date}=${faker-date}
     [Documentation]  
     The user is in RequestForm
@@ -571,7 +488,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
     resources.write('    [Documentation]  \n')
     resources.write('    Sleep    500ms  \n')
     if ibed['bpmnElementType'] == 'startEvent': 
-      resources.write('    Go To    http://localhost:8080/process-definition/'+processIdFromBpmn+'/init \n')
+      resources.write('    Go To    http://localhost:8080/process-definition/'+processIdFromBpmn+'/init \n')  # Has to be the ID from the BPMN => OK!
     elif ibed['bpmnElementType'] == 'userTask': 
       resources.write('    Click Element If Visible    xpath:/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[12]/div[1]/button[1]  \n')
       resources.write('    Wait Until Page Contains    '+ibed['bpmnElementId']+'\n')
@@ -615,23 +532,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
          resources.write('    ${options_length}=    Get Length    ${list_options} \n')
          resources.write('    ${random_index}=    Random Int    1    ${options_length - 1} \n')
          resources.write('    Select From List By Index    '+defFieldLocator+'    ${random_index} \n')
-        # if 'manyToOneOptions' in field:
-        #   defManyToOneOptions = field['manyToOneOptions']
-        #   resources.write('    Click Element When Visible    '+defFieldLocator+' \n')
-        #   for index, item in enumerate(defManyToOneOptions):
-        #       if index==0:
-        #         resources.write("    IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
-        #         resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
-        #       elif index == len(defManyToOneOptions) - 1: 
-        #         resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n")  
-        #         resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
-        #         # resources.write('    END \n')
-        #       else: 
-        #         resources.write("    ELSE IF    '${faker-"+defFieldName+"}' == '"+item+"' \n") 
-        #         resources.write("        Click Element When Visible     //option[@value='[object Object]'][contains(.,'"+item+"')] \n") 
-        #   resources.write('    END \n')
     resources.write('\n')
-
 
     test.write('    The user submits '+ibed['bpmnElementId']+'\n')
     ### https://github.com/talesmp/aat4pais/issues/4
@@ -647,30 +548,9 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
     resources.write('\n')
     test.write('\n')
 
-
-
-### https://github.com/talesmp/aat4pais/issues/3
-
-# já estará com o `ibed`` (interactableBpmnElementIdsList) situado;
-"""
-[
-  'RequestForm', 
-  'TaskAnalyseComplaint', 
-  'TaskReviewEscalation', 
-  'TaskAcknowledge'
-]
-"""
-# localizar `ibed` em `jsonFilesContentDictList` pelo `bpmnElementId`,
-# para cada item em `jsonInteractableFields` fazer:
-## pegar `fieldName`, `fieldType`, `fieldLocator e, se for `many-to-one`, pegar `manyToOneOptions`;
-# pegar os dados de `manyToOneOptions`, contar o tamanho da lista e aí montar o IF/ELSE do Robot levando em conta o tamanho dessa lista
-
-     
-
 #endregion
 
-#region TO DO
-#####################################################################################################
+#region TO DO  ######################################################################################
 
 # """# Hush... (mining)"""
 

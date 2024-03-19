@@ -57,13 +57,7 @@ TC_BlindBatch
     END
 
 TC_Linear 
-    [Documentation]  Condition Expressions: 
-...                  ${processInstance.friendlyShoulder.babblingCharacterization.type== 'complaint'}
-...                  ${processInstance.friendlyShoulder.gravity <= 6}
-...                  ${processInstance.friendlyShoulder.gravity > 6}
-...                  ${processInstance.friendlyShoulder.log == false}
-...                  ${processInstance.friendlyShoulder.log == true}
-...  ===> arrange the following Keywords below according to the Conditions above:
+    [Documentation]  Arrange the following Keywords below according to the desired test path:
     kwFakerDataSetup
     kwLogin
     kwRequestForm
@@ -115,9 +109,6 @@ kwFakerDataSetup
     Set Test Variable    ${faker-response}
     ${faker-description}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-description}
-    # double-check the following collection in 'ext_word_list' =====>                     <===== 
-    ${faker-babblingCharacterization.type}    FakerLibrary.Word  ext_word_list=['complaint']
-    Set Test Variable    ${faker-babblingCharacterization.type}
     ${processRunning}=    Set Variable    ${True}
     Set Test Variable    ${processRunning}
 
