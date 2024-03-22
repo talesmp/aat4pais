@@ -2,23 +2,13 @@
     [
         "Start of Execution #0",
         "RequestForm",
-        "TaskAnalyseComplaint",
+        "TaskAcknowledge",
         "End of Execution #0"
     ],
     [
         "Start of Execution #1",
         "RequestForm",
-        "TaskAnalyseComplaint",
-        "End of Execution #1",
-        "TaskReviewEscalation",
-        "End of Execution #1"
-    ],
-    [
-        "Start of Execution #1",
-        "RequestForm",
-        "TaskAnalyseComplaint",
-        "End of Execution #1",
-        "TaskReviewEscalation",
+        "TaskAcknowledge",
         "End of Execution #1"
     ],
     [
@@ -36,13 +26,13 @@
     [
         "Start of Execution #4",
         "RequestForm",
-        "TaskAnalyseComplaint",
+        "TaskAcknowledge",
         "End of Execution #4"
     ],
     [
         "Start of Execution #5",
         "RequestForm",
-        "TaskAcknowledge",
+        "TaskAnalyseComplaint",
         "End of Execution #5"
     ],
     [
@@ -54,13 +44,15 @@
     [
         "Start of Execution #7",
         "RequestForm",
-        "TaskAcknowledge",
+        "TaskAnalyseComplaint",
+        "TaskReviewEscalation",
         "End of Execution #7"
     ],
     [
         "Start of Execution #8",
         "RequestForm",
-        "TaskAcknowledge",
+        "TaskAnalyseComplaint",
+        "TaskReviewEscalation",
         "End of Execution #8"
     ],
     [

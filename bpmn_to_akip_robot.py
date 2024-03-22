@@ -56,7 +56,7 @@ process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-
 
 current_directory = os.getcwd().replace('\\', '/')
 robot_file_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
-executed_kw_json_path = robot_file_path+process_folder_name+'-executedKeywords.json'
+executed_kw_json_path = robot_file_path+'executedKeywords-'+process_folder_name+'.json'
 
 bpmn_path = find_files_with_extension(current_directory+'/AssessmentProcessModels/'+process_folder_name, 'bpmn')[0]
 json_folder_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
@@ -319,6 +319,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('Library    OperatingSystem \n')
   test.write('Library    Collections \n')
   test.write('Resource    '+robotResourcesFileName+'\n')
+  test.write('Library  process_executions.py \n')
   test.write('Test Setup    kwFakerDataSetup\n')
   test.write('\n')
   resources.write('*** Settings ***\n')
@@ -389,12 +390,13 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('                Set Test Variable    ${processRunning}\n')
   test.write('                BREAK\n')
   test.write('            END\n')
+  test.write('        END\n')
   test.write('        Append To List    ${inner_list}    End of Execution #${i} \n')
   test.write('        Append To List    ${kw_executed}    ${inner_list} \n')
-  test.write('        END\n')
+  test.write('    END\n')
   test.write('    ${json_string}=  Evaluate  json.dumps(${kw_executed}, indent=4) \n')
   test.write('    Create File   '+executed_kw_json_path+'    ${json_string} \n')
-  test.write('    END\n')
+  test.write('    process_executions  executedKeywords-'+process_folder_name+'.json  execution_counts.txt \n')
   test.write('\n')
   ### Linear ###
   test.write('TC_Linear \n')

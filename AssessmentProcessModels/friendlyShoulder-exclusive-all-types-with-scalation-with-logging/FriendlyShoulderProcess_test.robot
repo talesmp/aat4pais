@@ -37,7 +37,7 @@ TC_BlindBatch
     ${kw_executed}=    Create List
     kwFakerDataSetup
     kwLogin
-    FOR    ${i}    IN RANGE    10
+    FOR    ${i}    IN RANGE    50
         ${inner_list}=    Create List
         kwFakerDataSetup
         kwRequestForm
@@ -62,12 +62,17 @@ TC_BlindBatch
                 Set Test Variable    ${processRunning}
                 BREAK
             END
+        END
         Append To List    ${inner_list}    End of Execution #${i} 
         Append To List    ${kw_executed}    ${inner_list} 
-        END
-    ${json_string}=  Evaluate  json.dumps(${kw_executed}, indent=4) 
-    Create File   C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-exclusive-all-types-with-scalation-with-logging/friendlyShoulder-exclusive-all-types-with-scalation-with-logging-executedKeywords.json    ${json_string} 
     END
+    ${json_string}=  Evaluate  json.dumps(${kw_executed}, indent=4) 
+    Create File   C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-exclusive-all-types-with-scalation-with-logging/executedKeywords-friendlyShoulder-exclusive-all-types-with-scalation-with-logging.json    ${json_string} 
+    ${data}=  Evaluate  json.loads(open("C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-exclusive-all-types-with-scalation-with-logging/executedKeywords-friendlyShoulder-exclusive-all-types-with-scalation-with-logging.json").read())
+    ${execution_paths}=  Evaluate  [' => '.join(execution[1:-1]) for execution in $data]
+    ${execution_counts}=  Evaluate  dict(collections.Counter($execution_paths))  modules=collections
+    ${output}=  Evaluate  "{} times\\n".format(len($data)) + '\\n'.join(["{} executions: {}".format(count, path) for path, count in $execution_counts.items()])
+    Create File  C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-exclusive-all-types-with-scalation-with-logging/executionCounts-friendlyShoulder-exclusive-all-types-with-scalation-with-logging.txt  ${output}
 
 TC_Linear 
     [Documentation]  Arrange the following Keywords below according to the desired test path:
@@ -89,9 +94,9 @@ TC_LinearBatch
 
 *** Keywords ***
 kwFindFirstAvailableTask
-    Sleep    200ms
     kwMyTasks
     ${found_task}=    Set Variable    No task available.
+    Capture Page Screenshot
     ${exist_available_task}=    Run Keyword And Return Status    Get Text  xpath=/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[8]
     IF    $exist_available_task == True
         FOR    ${taskName}    IN ZIP    ${TaskNames}
