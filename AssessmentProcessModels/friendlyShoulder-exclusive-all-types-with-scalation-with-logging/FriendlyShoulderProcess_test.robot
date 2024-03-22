@@ -1,7 +1,9 @@
 # Prompt Command to Execute a Specific Test Case: 
 # robot -i TC_Random FriendlyShoulderProcess_test.robot
 *** Settings ***
-Library    FakerLibrary    #locale=pt_BR
+Library    FakerLibrary    #locale=pt_BR 
+Library    OperatingSystem 
+Library    Collections 
 Resource    FriendlyShoulderProcess_resources.robot
 Test Setup    kwFakerDataSetup
 
@@ -32,28 +34,39 @@ TC_Blind
     END
 
 TC_BlindBatch
+    ${kw_executed}=    Create List
     kwFakerDataSetup
     kwLogin
     FOR    ${i}    IN RANGE    10
+        ${inner_list}=    Create List
         kwFakerDataSetup
         kwRequestForm
+        Append To List    ${inner_list}    Start of Execution #${i}
+        Append to List    ${inner_list}    RequestForm
         WHILE    $processRunning == True
             kwFindFirstAvailableTask
             IF    $found_task == "TaskAnalyseComplaint"
                 kwFakerDataSetup
                 kwTaskAnalyseComplaint
+                Append To List    ${inner_list}    TaskAnalyseComplaint
             ELSE IF    $found_task == "TaskReviewEscalation"
                 kwFakerDataSetup
                 kwTaskReviewEscalation
+                Append To List    ${inner_list}    TaskReviewEscalation
             ELSE IF    $found_task == "TaskAcknowledge"
                 kwFakerDataSetup
                 kwTaskAcknowledge
+                Append To List    ${inner_list}    TaskAcknowledge
             ELSE IF    $found_task == "No task available."
                 ${processRunning}=    Set Variable    ${False}
                 Set Test Variable    ${processRunning}
                 BREAK
             END
+        Append To List    ${inner_list}    End of Execution #${i} 
+        Append To List    ${kw_executed}    ${inner_list} 
         END
+    ${json_string}=  Evaluate  json.dumps(${kw_executed}, indent=4) 
+    Create File   C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-exclusive-all-types-with-scalation-with-logging/friendlyShoulder-exclusive-all-types-with-scalation-with-logging-executedKeywords.json    ${json_string} 
     END
 
 TC_Linear 

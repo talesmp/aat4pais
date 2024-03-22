@@ -24,7 +24,7 @@ def find_files_with_extension(directory, extension):
 # process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-no-logging'
 # process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-with-logging'
 # process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-logging'
+process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-logging'
 # process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-no-logging'
 # process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-with-logging'
 # process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-no-logging'
@@ -51,12 +51,12 @@ def find_files_with_extension(directory, extension):
 # process_folder_name = 'travelPlan-SRV'
 # process_folder_name = 'travelPlan-TIMER'
 # process_folder_name = 'travelPlan-VAL'
-process_folder_name = 'travelPlan-XOR'
+# process_folder_name = 'travelPlan-XOR'
 
 
 current_directory = os.getcwd().replace('\\', '/')
 robot_file_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
-#executed_kw_json_path = robot_file_path+'executedKeywords.json'
+executed_kw_json_path = robot_file_path+process_folder_name+'-executedKeywords.json'
 
 bpmn_path = find_files_with_extension(current_directory+'/AssessmentProcessModels/'+process_folder_name, 'bpmn')[0]
 json_folder_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
@@ -315,7 +315,9 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('# robot -i TC_Random '+robotTestFileName+'\n')
   # Settings section
   test.write('*** Settings ***\n')
-  test.write('Library    FakerLibrary    #locale=pt_BR\n')
+  test.write('Library    FakerLibrary    #locale=pt_BR \n')
+  test.write('Library    OperatingSystem \n')
+  test.write('Library    Collections \n')
   test.write('Resource    '+robotResourcesFileName+'\n')
   test.write('Test Setup    kwFakerDataSetup\n')
   test.write('\n')
@@ -363,11 +365,15 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   ### 10 times batch execution of Blind  ###
   ### Implementation of executed keywords json
   test.write('TC_BlindBatch\n')
+  test.write('    ${kw_executed}=    Create List\n')
   test.write('    kwFakerDataSetup\n')
   test.write('    kwLogin\n')
   test.write('    FOR    ${i}    IN RANGE    10\n')
+  test.write('        ${inner_list}=    Create List\n')
   test.write('        kwFakerDataSetup\n')
   test.write('        kw'+startEventId+'\n')
+  test.write('        Append To List    ${inner_list}    Start of Execution #${i}\n')
+  test.write('        Append to List    ${inner_list}    '+startEventId+'\n')
   test.write('        WHILE    $processRunning == True\n')
   test.write('            kwFindFirstAvailableTask\n')
   for i, userTask in enumerate(filteredUserTasks):
@@ -377,12 +383,17 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
       test.write('            ELSE IF    $found_task == "'+userTask+'"\n')
     test.write('                kwFakerDataSetup\n')
     test.write('                kw'+userTask+'\n')
+    test.write('                Append To List    ${inner_list}    '+userTask+'\n')
   test.write('            ELSE IF    $found_task == "No task available."\n')
   test.write('                ${processRunning}=    Set Variable    ${False}\n')
   test.write('                Set Test Variable    ${processRunning}\n')
   test.write('                BREAK\n')
   test.write('            END\n')
+  test.write('        Append To List    ${inner_list}    End of Execution #${i} \n')
+  test.write('        Append To List    ${kw_executed}    ${inner_list} \n')
   test.write('        END\n')
+  test.write('    ${json_string}=  Evaluate  json.dumps(${kw_executed}, indent=4) \n')
+  test.write('    Create File   '+executed_kw_json_path+'    ${json_string} \n')
   test.write('    END\n')
   test.write('\n')
   ### Linear ###
