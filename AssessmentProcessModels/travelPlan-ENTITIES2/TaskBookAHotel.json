@@ -1,0 +1,44 @@
+{
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "hotelBookingNumber",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipName": "hotelCompany",
+      "relationshipType": "many-to-one",
+      "otherEntityName": "hotelCompany",
+      "otherEntityField": "name"
+    }
+  ],
+  "entityType": "user-task-form",
+  "processBpmnId": "TravelPlanProcessENTITIES2",
+  "processEntityName": "TravelPlanProcess",
+  "taskBpmnId": "TaskHotel",
+  "domainEntityName": "TravelPlan",
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "skipFakeData": true,
+  "name": "TaskBookAHotel",
+  "changelogDate": "20210401000003"
+}

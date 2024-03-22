@@ -1,0 +1,32 @@
+{
+  "fields": [
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipName": "babblingCharacterization",
+      "otherEntityName": "babblingCharacterization",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "type"
+    }
+  ],
+  "entityType": "start-form",
+  "processBpmnId": "FriendlyShoulderProcess",
+  "processEntityName": "FriendlyShoulderProcess",
+  "domainEntityName": "FriendlyShoulder",
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "FriendlyShoulderStartForm",
+  "changelogDate": "20210401000002",
+  "skipFakeData": true
+}

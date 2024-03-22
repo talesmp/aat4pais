@@ -1,0 +1,51 @@
+{
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "carStartDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "carDuration",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "car",
+      "relationshipName": "car",
+      "relationshipValidateRules": ["required"],
+      "otherEntityField": "license"
+    }
+  ],
+  "entityType": "user-task-form",
+  "processBpmnId": "TravelPlanProcessCOMPLETE",
+  "processEntityName": "TravelPlanProcess",
+  "taskBpmnId": "taskChooseCar",
+  "domainEntityName": "TravelPlan",
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "skipFakeData": true,
+  "name": "TaskChooseCar",
+  "changelogDate": "20210401000004"
+}

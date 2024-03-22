@@ -1,0 +1,59 @@
+{
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "hotelBookingNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "airlineTicketNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "carBookingNumber",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipName": "airlineCompany",
+      "relationshipType": "many-to-one",
+      "otherEntityName": "airlineCompany",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipName": "hotelCompany",
+      "relationshipType": "many-to-one",
+      "otherEntityName": "hotelCompany",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipName": "carRentalCompany",
+      "relationshipType": "many-to-one",
+      "otherEntityName": "carRentalCompany",
+      "otherEntityField": "name"
+    }
+  ],
+  "entityType": "process-binding",
+  "processBpmnId": "TravelPlanProcessENTITIES",
+  "domainEntityName": "TravelPlan",
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "TravelPlanProcess",
+  "changelogDate": "20210401000002",
+  "skipFakeData": true
+}

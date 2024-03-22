@@ -1,0 +1,82 @@
+{
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "numPax",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "payment",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hotelStartDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "hotelDuration",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "carStartDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "carDuration",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "PlanStatus",
+      "fieldValues": "UNKNOWN,CANCELED,TIMEDOUT,PAID"
+    },
+    {
+      "fieldName": "proceedToCheckOut",
+      "fieldType": "Boolean"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "car",
+      "relationshipName": "car",
+      "otherEntityField": "license"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "flight",
+      "relationshipName": "flight",
+      "otherEntityField": "code"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "hotelRoom",
+      "relationshipName": "hotelRoom",
+      "otherEntityField": "roomID"
+    }
+  ],
+  "name": "TravelPlan",
+  "entityType": "domain",
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": true,
+  "pagination": "no",
+  "changelogDate": "20210401000001",
+  "skipFakeData": true
+}

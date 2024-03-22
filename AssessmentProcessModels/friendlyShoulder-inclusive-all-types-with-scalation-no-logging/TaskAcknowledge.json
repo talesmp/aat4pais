@@ -1,0 +1,44 @@
+{
+  "fields": [
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "log",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "response",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipName": "babblingCharacterization",
+      "otherEntityName": "babblingCharacterization",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "type",
+      "fieldReadOnly": true
+    }
+  ],
+  "entityType": "user-task-form",
+  "processBpmnId": "FriendlyShoulderProcess",
+  "processEntityName": "FriendlyShoulderProcess",
+  "taskBpmnId": "TaskAcknowledge",
+  "domainEntityName": "FriendlyShoulder",
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "skipFakeData": true,
+  "name": "TaskAcknowledge",
+  "changelogDate": "20210401000003"
+}

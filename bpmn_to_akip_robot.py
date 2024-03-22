@@ -20,18 +20,46 @@ def find_files_with_extension(directory, extension):
     return glob.glob(f"{directory}/*.{extension}")
 
 # Files locations
+# 18 Friendly Shoulder
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-only-suggestion-compliment-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-only-suggestion-compliment-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-with-logging'
+# 12 Travel Plan
+# process_folder_name = 'travelPlan-AND'
+# process_folder_name = 'travelPlan-EMSG'
+# process_folder_name = 'travelPlan-ENTITIES'
+# process_folder_name = 'travelPlan-ENTITIES2'
+# process_folder_name = 'travelPlan-ENTITIES3'
+# process_folder_name = 'travelPlan-LOOP'
+# process_folder_name = 'travelPlan-OR'
+# process_folder_name = 'travelPlan-SIMPLE'
+# process_folder_name = 'travelPlan-SRV'
+# process_folder_name = 'travelPlan-TIMER'
+# process_folder_name = 'travelPlan-VAL'
+process_folder_name = 'travelPlan-XOR'
 
-process_name = 'FriendlyShoulder'
-# process_name = 'TravelPlan'
 
 current_directory = os.getcwd().replace('\\', '/')
-print(current_directory)
-os.makedirs(current_directory+'/AAT4PAIS/'+process_name, exist_ok=True)
-robot_file_path = current_directory+'/AAT4PAIS/'+process_name+'/'
+robot_file_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
 #executed_kw_json_path = robot_file_path+'executedKeywords.json'
 
-bpmn_path = find_files_with_extension(current_directory+'/BPMNandJSONs/'+process_name, 'bpmn')[0]
-json_folder_path = current_directory+'/BPMNandJSONs/'+process_name+'/'
+bpmn_path = find_files_with_extension(current_directory+'/AssessmentProcessModels/'+process_folder_name, 'bpmn')[0]
+json_folder_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
 
 #endregion
 

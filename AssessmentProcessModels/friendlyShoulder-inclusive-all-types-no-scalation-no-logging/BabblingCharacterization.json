@@ -1,0 +1,18 @@
+{
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "entityType": "domain",
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "BabblingCharacterization",
+  "changelogDate": "20211109000001",
+  "skipFakeData": true
+}

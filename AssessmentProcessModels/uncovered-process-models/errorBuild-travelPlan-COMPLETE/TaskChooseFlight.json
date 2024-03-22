@@ -1,0 +1,41 @@
+{
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate",
+      "fieldReadOnly": true
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate",
+      "fieldReadOnly": true
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "flight",
+      "relationshipName": "flight",
+      "relationshipValidateRules": ["required"],
+      "otherEntityField": "code"
+    }
+  ],
+  "entityType": "user-task-form",
+  "processBpmnId": "TravelPlanProcessCOMPLETE",
+  "processEntityName": "TravelPlanProcess",
+  "taskBpmnId": "taskChooseFlight",
+  "domainEntityName": "TravelPlan",
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "skipFakeData": true,
+  "name": "TaskChooseFlight",
+  "changelogDate": "20210401000004"
+}

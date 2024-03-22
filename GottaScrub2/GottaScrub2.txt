@@ -2,7 +2,7 @@ Each project has the following artifacts:
 
 - 1 Data Model using a UML Class Diagram 
     => Today: Diagrams.net 
-        => How to integrate? Has to be a "offline" file, to be part of the resources of the project 
+        => How to integrate? Has to be an "offline" file, to be part of the resources of the project 
             => A MarkDown file (PlantUML, Mermaid, etc)? 
 
 - 1..n Process Definitions (BPMN) 
@@ -41,26 +41,3 @@ Como amarrar o versionamento do artifacts?
 
 Se os 
 
-
-kwFindFirstAvailableTask
-    Sleep    200ms
-    kwMyTasks
-    ${found_task}=    Set Variable    No task available.
-    ${exist_available_task}=    Run Keyword And Return Status    Get Text  xpath=/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[8]
-    IF    $exist_available_task == True
-        FOR    ${taskName}    IN ZIP    ${TaskNames}
-            ${task_definition_key_from_text}=    Get Text  xpath=/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[8]
-            IF    $task_definition_key_from_text == $taskName
-                ${found_task}=    Set Variable    ${taskName}
-                BREAK
-            END
-        END
-        IF    $found_task == "No task available."
-            ${processRunning}=    Set Variable    ${False}
-            Set Test Variable    ${processRunning}
-            ${found_task}=    Set Variable    ${task_definition_key_from_text}
-            Set Test Variable    ${found_task}
-            Fatal Error    Unexpected task found!  
-        END
-    END
-    Set Test Variable    ${found_task}

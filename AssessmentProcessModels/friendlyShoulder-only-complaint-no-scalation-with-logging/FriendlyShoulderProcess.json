@@ -1,0 +1,43 @@
+{
+  "fields": [
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "gravity",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "log",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "response",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipName": "babblingCharacterization",
+      "otherEntityName": "babblingCharacterization",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "type"
+    }
+  ],
+  "entityType": "process-binding",
+  "processBpmnId": "FriendlyShoulderProcess",
+  "domainEntityName": "FriendlyShoulder",
+  "service": "serviceClass",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": false,
+  "readOnly": false,
+  "pagination": "no",
+  "name": "FriendlyShoulderProcess",
+  "changelogDate": "20210401000002",
+  "skipFakeData": true
+}
