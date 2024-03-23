@@ -24,7 +24,7 @@ def find_files_with_extension(directory, extension):
 # process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-no-logging'
 # process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-with-logging'
 # process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-no-logging'
-process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-logging'
 # process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-no-logging'
 # process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-with-logging'
 # process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-no-logging'
@@ -38,7 +38,7 @@ process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-
 # process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-no-logging'
 # process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-with-logging'
 # process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-with-logging'
+process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-with-logging'
 # 12 Travel Plan
 # process_folder_name = 'travelPlan-AND'
 # process_folder_name = 'travelPlan-EMSG'
@@ -56,10 +56,10 @@ process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-
 
 current_directory = os.getcwd().replace('\\', '/')
 robot_file_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
-executed_kw_json_path = robot_file_path+'executedKeywords-'+process_folder_name+'.json'
 
 bpmn_path = find_files_with_extension(current_directory+'/AssessmentProcessModels/'+process_folder_name, 'bpmn')[0]
 json_folder_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
+executed_kw_json_path = robot_file_path+'executedKeywords-'+process_folder_name+'.json'
 
 #endregion
 
@@ -319,7 +319,6 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('Library    OperatingSystem \n')
   test.write('Library    Collections \n')
   test.write('Resource    '+robotResourcesFileName+'\n')
-  test.write('Library  process_executions.py \n')
   test.write('Test Setup    kwFakerDataSetup\n')
   test.write('\n')
   resources.write('*** Settings ***\n')
@@ -342,27 +341,6 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
 
   # Test Cases section
   test.write('*** Test Cases ***\n')
-  ### Blind  ###
-  test.write('TC_Blind\n')
-  test.write('    kwFakerDataSetup\n')
-  test.write('    kwLogin\n')
-  test.write('    kw'+startEventId+'\n')
-  test.write('    WHILE    $processRunning == True\n')
-  test.write('        kwFindFirstAvailableTask\n')
-  for i, userTask in enumerate(filteredUserTasks):
-    if i == 0:
-        test.write('        IF    $found_task == "'+userTask+'"\n')
-    else:
-        test.write('        ELSE IF    $found_task == "'+userTask+'"\n')
-    test.write('            kwFakerDataSetup\n')
-    test.write('            kw'+userTask+'\n')
-  test.write('        ELSE IF    $found_task == "No task available."\n')
-  test.write('            ${processRunning}=    Set Variable    ${False}\n')
-  test.write('            Set Test Variable    ${processRunning}\n')
-  test.write('            BREAK\n')
-  test.write('        END\n')
-  test.write('    END\n')
-  test.write('\n')
   ### 10 times batch execution of Blind  ###
   ### Implementation of executed keywords json
   test.write('TC_BlindBatch\n')
@@ -394,9 +372,34 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('        Append To List    ${inner_list}    End of Execution #${i} \n')
   test.write('        Append To List    ${kw_executed}    ${inner_list} \n')
   test.write('    END\n')
-  test.write('    ${json_string}=  Evaluate  json.dumps(${kw_executed}, indent=4) \n')
-  test.write('    Create File   '+executed_kw_json_path+'    ${json_string} \n')
-  test.write('    process_executions  executedKeywords-'+process_folder_name+'.json  execution_counts.txt \n')
+  test.write('    ${json_string}=    Evaluate    json.dumps(${kw_executed}, indent=4) \n')
+  test.write('    Create File    '+executed_kw_json_path+'    ${json_string} \n')
+  test.write('    ${data}=    Evaluate    json.loads(open("'+executed_kw_json_path+'").read()) \n')
+  test.write("    ${execution_paths}=    Evaluate    [' => '.join(execution[1:-1]) for execution in $data] \n")
+  test.write('    ${execution_counts}=    Evaluate    dict(collections.Counter($execution_paths))    modules=collections \n')
+  test.write('    ${output}=  Evaluate  "{} times\\\\n".format(len($data)) + '+"'\\\\n'.join(["+'"{} executions: {}".format(count, path) for path, count in $execution_counts.items()]) \n')
+  test.write('    Create File    '+json_folder_path+'executionCounts-'+process_folder_name+'.txt    ${output} \n')
+  test.write('\n')
+  ### Blind  ###
+  test.write('TC_Blind\n')
+  test.write('    kwFakerDataSetup\n')
+  test.write('    kwLogin\n')
+  test.write('    kw'+startEventId+'\n')
+  test.write('    WHILE    $processRunning == True\n')
+  test.write('        kwFindFirstAvailableTask\n')
+  for i, userTask in enumerate(filteredUserTasks):
+    if i == 0:
+        test.write('        IF    $found_task == "'+userTask+'"\n')
+    else:
+        test.write('        ELSE IF    $found_task == "'+userTask+'"\n')
+    test.write('            kwFakerDataSetup\n')
+    test.write('            kw'+userTask+'\n')
+  test.write('        ELSE IF    $found_task == "No task available."\n')
+  test.write('            ${processRunning}=    Set Variable    ${False}\n')
+  test.write('            Set Test Variable    ${processRunning}\n')
+  test.write('            BREAK\n')
+  test.write('        END\n')
+  test.write('    END\n')
   test.write('\n')
   ### Linear ###
   test.write('TC_Linear \n')
@@ -405,16 +408,6 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write('    kwLogin\n')
   test.write('    kw'+'\n    kw'.join(interactableBpmnElementIdsList)+'\n')
   test.write('\n')
-  ### 10 times batch execution of Linear ###
-  test.write('TC_LinearBatch \n')
-  test.write('    [Documentation]  Execute TC_Linear for i=10 consecutive times\n')
-  test.write('    FOR    ${i}    IN RANGE    10\n')
-  test.write('        Sleep    200ms\n')
-  test.write('        kwFakerDataSetup\n')
-  test.write('        # =====> Insert here the arranged Keywords according to TC_Linear above <====\n')
-  test.write('        Close Browser\n')
-  test.write('    END\n')
-  test.write('\n')
 
   # Keywords section
   test.write('*** Keywords ***\n')
@@ -422,7 +415,6 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
 
   ### Implementing the search for available tasks ###
   test.write('kwFindFirstAvailableTask\n')
-  test.write('    Sleep    200ms\n')
   test.write('    kwMyTasks\n')
   test.write('    ${found_task}=    Set Variable    No task available.\n')
   test.write('    ${exist_available_task}=    Run Keyword And Return Status    Get Text  xpath=/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[8]\n')
@@ -497,7 +489,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   resources.write('The user is in MyTasks\n')
   resources.write('    [Arguments]  \n')
   resources.write('    [Documentation]  \n')
-  resources.write('    Sleep    100ms\n')
+  resources.write('    Sleep    500ms\n')
   resources.write('    Go To    ${url_my_tasks}\n')
   resources.write('    Wait Until Element Is Visible    task-instance-heading\n')
   resources.write('\n')
