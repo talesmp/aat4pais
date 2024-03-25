@@ -1,4 +1,4 @@
-#region Config and Functions
+#region Config and Auxiliary Functions
 
 # Import Libraries
 import os
