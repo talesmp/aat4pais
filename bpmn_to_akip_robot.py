@@ -1,69 +1,19 @@
-#region Config
-
-# -*- coding: utf-8 -*-
-"""
-# Preparing the Environment
-- Importing the libraries
-- Importing the BPMN (XML)
-- Importing the webapp reference architecture files (JSONs)
-"""
+#region Config and Functions
 
 # Import Libraries
 import os
-import glob
 import xml.etree.ElementTree as ET
 import json
-import re    # `camel_to_dash` function
+import glob   # `find_files_with_extension` function
+import re     # `camel_to_dash` function
+
+  #region [Generic] Finding Files with Extension
 
 # [General] Finding Files with Extension
 def find_files_with_extension(directory, extension):
     return glob.glob(f"{directory}/*.{extension}")
 
-# Files locations
-# 18 Friendly Shoulder
-# process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-with-logging'
-# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-logging'
-# process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-with-logging'
-# process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-with-logging'
-# process_folder_name = 'friendlyShoulder-only-complaint-no-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-only-complaint-no-scalation-with-logging'
-# process_folder_name = 'friendlyShoulder-only-complaint-with-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-only-complaint-with-scalation-with-logging'
-# process_folder_name = 'friendlyShoulder-only-suggestion-compliment-no-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-only-suggestion-compliment-no-scalation-with-logging'
-# process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-no-logging'
-# process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-with-logging'
-# process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-no-logging'
-process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-with-logging'
-# 12 Travel Plan
-# process_folder_name = 'travelPlan-AND'
-# process_folder_name = 'travelPlan-EMSG'
-# process_folder_name = 'travelPlan-ENTITIES'
-# process_folder_name = 'travelPlan-ENTITIES2'
-# process_folder_name = 'travelPlan-ENTITIES3'
-# process_folder_name = 'travelPlan-LOOP'
-# process_folder_name = 'travelPlan-OR'
-# process_folder_name = 'travelPlan-SIMPLE'
-# process_folder_name = 'travelPlan-SRV'
-# process_folder_name = 'travelPlan-TIMER'
-# process_folder_name = 'travelPlan-VAL'
-# process_folder_name = 'travelPlan-XOR'
-
-
-current_directory = os.getcwd().replace('\\', '/')
-robot_file_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
-
-bpmn_path = find_files_with_extension(current_directory+'/AssessmentProcessModels/'+process_folder_name, 'bpmn')[0]
-json_folder_path = current_directory+'/AssessmentProcessModels/'+process_folder_name+'/'
-executed_kw_json_path = robot_file_path+'executedKeywords-'+process_folder_name+'.json'
-
-#endregion
-
-#region Functions
+  #endregion
 
   #region [BPMN] Find the type of a given element by it's tag using the ID
 
@@ -82,7 +32,7 @@ def find_tag_type_by_id(id):
 
   #region [AKIP] Filter interactable fields from JSON
 
-def filter_interactable_fields_from_json(json_dict):
+def filter_interactable_fields_from_json(json_dict, startEventId):
     filtered_dict = {}
     filtered_fields = []
     # filtered_relationships = []
@@ -118,93 +68,51 @@ def camel_to_dash(string):
 
   #endregion
 
-  #region [AKIP/Deprecated] Extract the collection of options of a given 'many-to-one' Complex Entity
-def extract_many_to_one_collection(input_list, target_substring):
-    pattern = rf"{re.escape(target_substring)}\s*==\s*\'(\w+)\'"
-    result = [match for string in input_list for match in re.findall(pattern, string)]
-    filteredResult = list(set(result))
-    return filteredResult
-
-  #endregion
-
-  #region [BPMN/Deprecated] Find the condition in the flow between two elements with the IDs in the list of Test Cases
-
-def find_condition_expression_in_flow(source, target):
-  # Find the refs
-  sourceRef = root.find(".//bpmn:sequenceFlow[@sourceRef='"+source+"']", ns)
-  targetRef = root.find(".//bpmn:sequenceFlow[@targetRef='"+target+"']", ns)
-  # Find the sequence flow between the gateway and the task
-  sequence_flow = root.find(".//bpmn:sequenceFlow[@sourceRef='"+source+"'][@targetRef='"+target+"']", ns)
-  # Extract the condition expression from the sequence flow, if it exists
-  try:
-    condition_expression = sequence_flow.find("bpmn:conditionExpression", ns)
-    condition = condition_expression.text
-  except AttributeError:
-    # If condition_expression is None, return a string specifying the lack of it
-    condition = "No condition present."
-  # Return the condition expression text (always a string? think about returning it to `None`)
-  return condition
-# print(find_condition_expression_in_flow(tc_list[2][1], tc_list[2][2]))
-
-  #endregion
-
-  #region [BPMN/Deprecated] Find the conditions in the outgoing flows of a given Gateway
-
-def find_outgoing_condition_expressions_from_gateway(gatewayElementId):
-  gatewayOutgoingConditionsDict = {}
-  gatewayOutgoingConditionsDict['gatewayId']=gatewayElementId
-  # Get a list of the outgoing flows
-  exclusive_gateway = root.find('.//*[@id="'+gatewayElementId+'"]')
-  outgoing_flows = [outgoing.text for outgoing in exclusive_gateway.findall('bpmn:outgoing', ns)]
-  outgoingConditions = []
-  # Find the outgoing sequence flows
-  for outgoingFlow in outgoing_flows:
-    sourceRef = root.find(".//bpmn:sequenceFlow[@sourceRef='"+gatewayElementId+"']", ns)
-    # Find the outgoing sequence flow from its ID and the Gateway it's coming from (sourceRef)
-    sequence_flow = root.find(".//bpmn:sequenceFlow[@id='"+outgoingFlow+"'][@sourceRef='"+gatewayElementId+"']", ns)
-    # Extract the condition expression from the sequence flow, if it exists
-    try:
-      condition_expression = sequence_flow.find("bpmn:conditionExpression", ns)
-      condition = condition_expression.text
-    except AttributeError:
-      # If condition_expression is None, return a string specifying the lack of it
-      condition = "No condition present."
-    # Return the condition expression text (always a string? think about returning it to `None`)
-    outgoingConditionDict = {}
-    # For each Outgoing Flow, a dictionary with the Flow Id and its Condition
-    outgoingConditionDict[outgoingFlow]=condition
-    # A list of dictionaries, each containing the Flow Id and its Condition
-    outgoingConditions.append(outgoingConditionDict)
-  gatewayOutgoingConditionsDict['outgoingConditions'] = outgoingConditions
-  return gatewayOutgoingConditionsDict
-
-# crudeOutgoingGatewayConditions = []
-# for gateway in bpmnGateways:
-#   gatewayId = gateway['bpmnElementId']
-#   conditionsDict = find_outgoing_condition_expressions_from_gateway(gatewayId)
-#   conditions = conditionsDict['outgoingConditions']
-#   for condition in conditions:
-#     for value in condition.values():
-#       if value != 'No condition present.':
-#         crudeOutgoingGatewayConditions.append(value)
-# crudeOutgoingGatewayConditions.sort()
-
-  #endregion
-
-  #region [BPMN/Deprecated] Find the dictionary and its index from the TC name
-
-def find_dict_and_index_by_key_name(dict_list, name):
-    for i, dictionary in enumerate(dict_list):
-        if dictionary['name'] == name:
-            return dictionary, i
-    return None, None
-# If the function is called with [0] in the end, it returns only the dictionary, and with [1] it returns the index
-
-  #endregion
-
 #endregion
 
-#region BPMN Manipulation
+#region Process folder name for files location
+# 18 Friendly Shoulder
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-only-suggestion-compliment-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-only-suggestion-compliment-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-with-logging'
+# 12 Travel Plan
+# process_folder_name = 'travelPlan-AND'
+# process_folder_name = 'travelPlan-EMSG'
+# process_folder_name = 'travelPlan-ENTITIES'
+process_folder_name = 'travelPlan-ENTITIES2'
+# process_folder_name = 'travelPlan-ENTITIES3'
+# process_folder_name = 'travelPlan-LOOP'
+# process_folder_name = 'travelPlan-OR'
+# process_folder_name = 'travelPlan-SIMPLE'
+# process_folder_name = 'travelPlan-SRV'
+# process_folder_name = 'travelPlan-TIMER'
+# process_folder_name = 'travelPlan-VAL'
+# process_folder_name = 'travelPlan-XOR'
+#endregion
+
+#region [Main] Process Folder Function
+current_directory = os.getcwd().replace('\\', '/')
+assessment_process_models_path = current_directory+'/AssessmentProcessModels/'
+process_folder_path = assessment_process_models_path+process_folder_name+'/'
+bpmn_path = find_files_with_extension(process_folder_path, 'bpmn')[0].replace('\\', '/')
+executed_kw_json_path = process_folder_path+'executedKeywords-'+process_folder_name+'.json'
+
+  #region BPMN Manipulation
 
 """ 
 Find all elements of interest in BPMN
@@ -254,9 +162,9 @@ for tag in tags:
         if tag=='userTask' and elem.get('id') not in filteredUserTasks:
           filteredUserTasks.append(elem.get('id'))
 
-#endregion
+  #endregion
 
-#region AgileKip Metadata JSON Manipulation
+  #region AgileKip Metadata JSON Manipulation
 
 """# Manipulating the AgileKip Metadata JSON files"""
 
@@ -271,12 +179,12 @@ domainJsonName = domainNameFromProcessId
 startFormJsonName = domainJsonName+"StartForm"
 
 jsonFilesContentDictList = []
-jsonFilesList = find_files_with_extension(json_folder_path, 'json')
+jsonFilesList = find_files_with_extension(process_folder_path, 'json')
 for jsonFile in jsonFilesList:
-  with open(os.path.join(json_folder_path, jsonFile)) as f:
+  with open(os.path.join(process_folder_path, jsonFile)) as f:
     tempJsonFilesContentDict = json.load(f)  # Fix: Assign the loaded JSON to a variable
     if 'entityType' in tempJsonFilesContentDict and tempJsonFilesContentDict['entityType'] in ['start-form', 'user-task-form']:
-      jsonFilesContentDictList.append(filter_interactable_fields_from_json(tempJsonFilesContentDict))
+      jsonFilesContentDictList.append(filter_interactable_fields_from_json(tempJsonFilesContentDict, startEventId))
 
 fieldLocators = set()
 bpmnElementIds = []
@@ -300,7 +208,7 @@ fieldLocators = sorted(fieldLocators, key=lambda x: x[0])
 # Sorting by the type of field to ease the understanding in the Robot file
 unique_interactable_fields = sorted(unique_interactable_fields, key=lambda x: x[1])
 
-#endregion
+  #endregion
 
 #region Robot Framework Files Generation
 
@@ -309,7 +217,7 @@ unique_interactable_fields = sorted(unique_interactable_fields, key=lambda x: x[
 
 robotTestFileName = processIdFromBpmn+'_test.robot'
 robotResourcesFileName = processIdFromBpmn+'_resources.robot'
-with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+robotResourcesFileName, 'w') as resources:
+with open(process_folder_path+robotTestFileName, 'w') as test, open(process_folder_path+robotResourcesFileName, 'w') as resources:
   # Adding a comment line to document the Prompt Command necessary for the execution of the Test Cases
   test.write('# Prompt Command to Execute a Specific Test Case: \n')
   test.write('# robot -i TC_Random '+robotTestFileName+'\n')
@@ -378,7 +286,7 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
   test.write("    ${execution_paths}=    Evaluate    [' => '.join(execution[1:-1]) for execution in $data] \n")
   test.write('    ${execution_counts}=    Evaluate    dict(collections.Counter($execution_paths))    modules=collections \n')
   test.write('    ${output}=  Evaluate  "{} times\\\\n".format(len($data)) + '+"'\\\\n'.join(["+'"{} executions: {}".format(count, path) for path, count in $execution_counts.items()]) \n')
-  test.write('    Create File    '+json_folder_path+'executionCounts-'+process_folder_name+'.txt    ${output} \n')
+  test.write('    Create File    '+process_folder_path+'executionsCounter-'+process_folder_name+'.txt    ${output} \n')
   test.write('\n')
   ### Blind  ###
   test.write('TC_Blind\n')
@@ -581,49 +489,6 @@ with open(robot_file_path+robotTestFileName, 'w') as test, open(robot_file_path+
     resources.write('\n')
     test.write('\n')
 
-#endregion
+  #endregion
 
-#region TO DO  ######################################################################################
-
-# """# Hush... (mining)"""
-
-# from collections import Counter
-
-# # Load the JSON data from a file
-# with open(executed_kw_json_path) as f:
-#     data = json.load(f)
-
-# # Extract the content of each inner list, excluding the first and last item of each
-# inner_lists = [lst[1:-1] for lst in data]
-
-# # Count the unique combinations of inner lists
-# counts = Counter(tuple(inner_list) for inner_list in inner_lists)
-
-# # Print the unique combinations and their counts
-# for combination, count in counts.most_common():
-#   formatted_count = f"{count:02d}"
-#   formatted_combination = " => ".join(word[2:] for word in combination)
-#   print(f"{formatted_count} executions: {formatted_combination}")
-
-# # 10 times
-# # 06 executions: RequestForm => TaskAcknowledge
-# # 02 executions: RequestForm => TaskAnalyseComplaint
-# # 02 executions: RequestForm => TaskAnalyseComplaint => TaskReviewEscalation
-
-# # 20 times
-# # 16 executions: RequestForm => TaskAcknowledge
-# # 02 executions: RequestForm => TaskAnalyseComplaint
-# # 02 executions: RequestForm => TaskAnalyseComplaint => TaskReviewEscalation
-
-# # 35 times
-# # 23 executions: RequestForm => TaskAcknowledge
-# # 07 executions: RequestForm => TaskAnalyseComplaint
-# # 05 executions: RequestForm => TaskAnalyseComplaint => TaskReviewEscalation
-
-# # 50 times
-# # 29 executions: RequestForm => TaskAcknowledge
-# # 11 executions: RequestForm => TaskAnalyseComplaint
-# # 10 executions: RequestForm => TaskAnalyseComplaint => TaskReviewEscalation
-
-#####################################################################################################
 #endregion

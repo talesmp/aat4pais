@@ -1,7 +1,9 @@
 # Prompt Command to Execute a Specific Test Case: 
 # robot -i TC_Random FriendlyShoulderProcess_test.robot
 *** Settings ***
-Library    FakerLibrary    #locale=pt_BR
+Library    FakerLibrary    #locale=pt_BR 
+Library    OperatingSystem 
+Library    Collections 
 Resource    FriendlyShoulderProcess_resources.robot
 Test Setup    kwFakerDataSetup
 
@@ -9,6 +11,47 @@ Test Setup    kwFakerDataSetup
 @{TaskNames}    TaskAnalyseComplaint  TaskReviewEscalation  TaskAcknowledge
 
 *** Test Cases ***
+TC_BlindBatch
+    ${kw_executed}=    Create List
+    kwFakerDataSetup
+    kwLogin
+    FOR    ${i}    IN RANGE    10
+        ${inner_list}=    Create List
+        kwFakerDataSetup
+        kwRequestForm
+        Append To List    ${inner_list}    Start of Execution #${i}
+        Append to List    ${inner_list}    RequestForm
+        WHILE    $processRunning == True
+            kwFindFirstAvailableTask
+            IF    $found_task == "TaskAnalyseComplaint"
+                kwFakerDataSetup
+                kwTaskAnalyseComplaint
+                Append To List    ${inner_list}    TaskAnalyseComplaint
+            ELSE IF    $found_task == "TaskReviewEscalation"
+                kwFakerDataSetup
+                kwTaskReviewEscalation
+                Append To List    ${inner_list}    TaskReviewEscalation
+            ELSE IF    $found_task == "TaskAcknowledge"
+                kwFakerDataSetup
+                kwTaskAcknowledge
+                Append To List    ${inner_list}    TaskAcknowledge
+            ELSE IF    $found_task == "No task available."
+                ${processRunning}=    Set Variable    ${False}
+                Set Test Variable    ${processRunning}
+                BREAK
+            END
+        END
+        Append To List    ${inner_list}    End of Execution #${i} 
+        Append To List    ${kw_executed}    ${inner_list} 
+    END
+    ${json_string}=    Evaluate    json.dumps(${kw_executed}, indent=4) 
+    Create File    C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-parallel-all-types-with-scalation-no-logging/executedKeywords-friendlyShoulder-parallel-all-types-with-scalation-no-logging.json    ${json_string} 
+    ${data}=    Evaluate    json.loads(open("C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-parallel-all-types-with-scalation-no-logging/executedKeywords-friendlyShoulder-parallel-all-types-with-scalation-no-logging.json").read()) 
+    ${execution_paths}=    Evaluate    [' => '.join(execution[1:-1]) for execution in $data] 
+    ${execution_counts}=    Evaluate    dict(collections.Counter($execution_paths))    modules=collections 
+    ${output}=  Evaluate  "{} times\\n".format(len($data)) + '\\n'.join(["{} executions: {}".format(count, path) for path, count in $execution_counts.items()]) 
+    Create File    C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-parallel-all-types-with-scalation-no-logging/executionsCounter-friendlyShoulder-parallel-all-types-with-scalation-no-logging.txt    ${output} 
+
 TC_Blind
     kwFakerDataSetup
     kwLogin
@@ -31,31 +74,6 @@ TC_Blind
         END
     END
 
-TC_BlindBatch
-    kwFakerDataSetup
-    kwLogin
-    FOR    ${i}    IN RANGE    10
-        kwFakerDataSetup
-        kwRequestForm
-        WHILE    $processRunning == True
-            kwFindFirstAvailableTask
-            IF    $found_task == "TaskAnalyseComplaint"
-                kwFakerDataSetup
-                kwTaskAnalyseComplaint
-            ELSE IF    $found_task == "TaskReviewEscalation"
-                kwFakerDataSetup
-                kwTaskReviewEscalation
-            ELSE IF    $found_task == "TaskAcknowledge"
-                kwFakerDataSetup
-                kwTaskAcknowledge
-            ELSE IF    $found_task == "No task available."
-                ${processRunning}=    Set Variable    ${False}
-                Set Test Variable    ${processRunning}
-                BREAK
-            END
-        END
-    END
-
 TC_Linear 
     [Documentation]  Arrange the following Keywords below according to the desired test path:
     kwFakerDataSetup
@@ -65,18 +83,8 @@ TC_Linear
     kwTaskReviewEscalation
     kwTaskAcknowledge
 
-TC_LinearBatch 
-    [Documentation]  Execute TC_Linear for i=10 consecutive times
-    FOR    ${i}    IN RANGE    10
-        Sleep    200ms
-        kwFakerDataSetup
-        # =====> Insert here the arranged Keywords according to TC_Linear above <====
-        Close Browser
-    END
-
 *** Keywords ***
 kwFindFirstAvailableTask
-    Sleep    200ms
     kwMyTasks
     ${found_task}=    Set Variable    No task available.
     ${exist_available_task}=    Run Keyword And Return Status    Get Text  xpath=/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[8]

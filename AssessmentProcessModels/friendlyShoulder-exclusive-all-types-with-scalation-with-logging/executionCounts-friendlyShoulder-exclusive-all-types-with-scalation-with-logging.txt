@@ -1,4 +1,0 @@
-20 times
-18 executions: RequestForm => TaskAcknowledge
-1 executions: RequestForm => TaskAnalyseComplaint
-1 executions: RequestForm => TaskAnalyseComplaint => TaskReviewEscalation

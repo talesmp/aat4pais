@@ -31,7 +31,7 @@ The user logs in
 The user is in MyTasks
     [Arguments]  
     [Documentation]  
-    Sleep    100ms
+    Sleep    500ms
     Go To    ${url_my_tasks}
     Wait Until Element Is Visible    task-instance-heading
 

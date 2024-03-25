@@ -15,7 +15,7 @@ TC_BlindBatch
     ${kw_executed}=    Create List
     kwFakerDataSetup
     kwLogin
-    FOR    ${i}    IN RANGE    20
+    FOR    ${i}    IN RANGE    10
         ${inner_list}=    Create List
         kwFakerDataSetup
         kwRequestForm
@@ -50,7 +50,7 @@ TC_BlindBatch
     ${execution_paths}=    Evaluate    [' => '.join(execution[1:-1]) for execution in $data] 
     ${execution_counts}=    Evaluate    dict(collections.Counter($execution_paths))    modules=collections 
     ${output}=  Evaluate  "{} times\\n".format(len($data)) + '\\n'.join(["{} executions: {}".format(count, path) for path, count in $execution_counts.items()]) 
-    Create File    C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-exclusive-all-types-with-scalation-with-logging/executionCounts-friendlyShoulder-exclusive-all-types-with-scalation-with-logging.txt    ${output} 
+    Create File    C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-exclusive-all-types-with-scalation-with-logging/executionsCounter-friendlyShoulder-exclusive-all-types-with-scalation-with-logging.txt    ${output} 
 
 TC_Blind
     kwFakerDataSetup
@@ -113,10 +113,10 @@ kwFakerDataSetup
     Set Test Variable    ${faker-gravity}
     ${faker-date}    FakerLibrary.Date
     Set Test Variable    ${faker-date}
-    ${faker-description}    FakerLibrary.Sentence  nb_words=8
-    Set Test Variable    ${faker-description}
     ${faker-response}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-response}
+    ${faker-description}    FakerLibrary.Sentence  nb_words=8
+    Set Test Variable    ${faker-description}
     ${processRunning}=    Set Variable    ${True}
     Set Test Variable    ${processRunning}
 

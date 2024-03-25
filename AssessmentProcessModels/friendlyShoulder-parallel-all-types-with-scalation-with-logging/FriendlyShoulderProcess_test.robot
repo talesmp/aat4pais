@@ -15,7 +15,7 @@ TC_BlindBatch
     ${kw_executed}=    Create List
     kwFakerDataSetup
     kwLogin
-    FOR    ${i}    IN RANGE    50
+    FOR    ${i}    IN RANGE    10
         ${inner_list}=    Create List
         kwFakerDataSetup
         kwRequestForm
@@ -50,7 +50,7 @@ TC_BlindBatch
     ${execution_paths}=    Evaluate    [' => '.join(execution[1:-1]) for execution in $data] 
     ${execution_counts}=    Evaluate    dict(collections.Counter($execution_paths))    modules=collections 
     ${output}=  Evaluate  "{} times\\n".format(len($data)) + '\\n'.join(["{} executions: {}".format(count, path) for path, count in $execution_counts.items()]) 
-    Create File    C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-parallel-all-types-with-scalation-with-logging/executionCounts-friendlyShoulder-parallel-all-types-with-scalation-with-logging.txt    ${output} 
+    Create File    C:/Users/tales/LocalDocuments/Development/aat4pais/AssessmentProcessModels/friendlyShoulder-parallel-all-types-with-scalation-with-logging/executionsCounter-friendlyShoulder-parallel-all-types-with-scalation-with-logging.txt    ${output} 
 
 TC_Blind
     kwFakerDataSetup
