@@ -113,12 +113,12 @@ kwFakerDataSetup
     Set Test Variable    ${faker-endDate}
     ${faker-carBookingNumber}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-carBookingNumber}
-    ${faker-hotelBookingNumber}    FakerLibrary.Sentence  nb_words=8
-    Set Test Variable    ${faker-hotelBookingNumber}
     ${faker-name}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-name}
     ${faker-airlineTicketNumber}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-airlineTicketNumber}
+    ${faker-hotelBookingNumber}    FakerLibrary.Sentence  nb_words=8
+    Set Test Variable    ${faker-hotelBookingNumber}
     ${processRunning}=    Set Variable    ${True}
     Set Test Variable    ${processRunning}
 

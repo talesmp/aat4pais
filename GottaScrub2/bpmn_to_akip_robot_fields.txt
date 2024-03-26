@@ -1,3 +1,37 @@
+# Files locations
+# 18 Friendly Shoulder
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-exclusive-all-types-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-inclusive-all-types-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-only-complaint-with-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-only-suggestion-compliment-no-scalation-no-logging'
+process_folder_name = 'friendlyShoulder-only-suggestion-compliment-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-no-scalation-with-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-no-logging'
+# process_folder_name = 'friendlyShoulder-parallel-all-types-with-scalation-with-logging'
+# 12 Travel Plan
+# process_folder_name = 'travelPlan-AND'
+# process_folder_name = 'travelPlan-EMSG'
+# process_folder_name = 'travelPlan-ENTITIES'
+# process_folder_name = 'travelPlan-ENTITIES2'
+# process_folder_name = 'travelPlan-ENTITIES3'
+# process_folder_name = 'travelPlan-LOOP'
+# process_folder_name = 'travelPlan-OR'
+# process_folder_name = 'travelPlan-SIMPLE'
+# process_folder_name = 'travelPlan-SRV'
+# process_folder_name = 'travelPlan-TIMER'
+# process_folder_name = 'travelPlan-VAL'
+# process_folder_name = 'travelPlan-XOR'
+
 [LIST] interactableBpmnElementsDict_notDT  
     [
         {'bpmnElementId': 'RequestForm', 'bpmnElementType': 'startEvent'}, 

@@ -97,10 +97,10 @@ kwFakerDataSetup
     Set Test Variable    ${faker-gravity}
     ${faker-date}    FakerLibrary.Date
     Set Test Variable    ${faker-date}
-    ${faker-response}    FakerLibrary.Sentence  nb_words=8
-    Set Test Variable    ${faker-response}
     ${faker-description}    FakerLibrary.Sentence  nb_words=8
     Set Test Variable    ${faker-description}
+    ${faker-response}    FakerLibrary.Sentence  nb_words=8
+    Set Test Variable    ${faker-response}
     ${processRunning}=    Set Variable    ${True}
     Set Test Variable    ${processRunning}
 
